@@ -8,7 +8,7 @@
     </x-admin.page-header>
 
     <div class="card overflow-hidden">
-        <table class="table-admin">
+        <div class="overflow-x-auto"><table class="table-admin">
             <thead><tr><th>Catégorie</th><th class="text-right">Produits</th><th class="text-right">Ordre</th><th>Statut</th><th class="text-right"><span class="sr-only">Actions</span></th></tr></thead>
             <tbody>
                 @forelse ($categories as $category)
@@ -39,6 +39,6 @@
                     <tr><td colspan="5"><x-empty-state icon="folder" title="Aucune catégorie" /></td></tr>
                 @endforelse
             </tbody>
-        </table>
+        </table></div>
     </div>
 @endsection

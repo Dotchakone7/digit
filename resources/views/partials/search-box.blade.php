@@ -17,7 +17,7 @@
         <div x-show="!loading">
             <template x-if="results.categories.length">
                 <div class="border-b border-zinc-100 p-2">
-                    <p class="px-2 py-1 text-[11px] font-bold tracking-widest text-zinc-400 uppercase">Catégories</p>
+                    <p class="px-2 py-1 text-[11px] font-bold tracking-widest text-zinc-500 uppercase">Catégories</p>
                     <template x-for="(cat, i) in results.categories" :key="cat.url">
                         <a :href="cat.url" class="flex items-center gap-2 rounded-xl px-2 py-2 text-sm font-medium text-brand-900 hover:bg-zinc-50" :class="active === i && 'bg-zinc-50'" role="option">
                             <x-icon name="folder" class="size-4 text-zinc-400" /> <span x-text="cat.name"></span>

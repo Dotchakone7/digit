@@ -15,8 +15,8 @@
         ];
     @endphp
     <div class="container-shop py-8 lg:py-12">
-        <div class="grid gap-8 lg:grid-cols-[260px_1fr]">
-            <aside>
+        <div class="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
+            <aside class="min-w-0">
                 <div class="mb-4 hidden items-center gap-3 lg:flex">
                     <span class="grid size-12 place-items-center rounded-2xl bg-brand-900 font-bold text-white">{{ auth()->user()->initials() }}</span>
                     <div class="min-w-0">

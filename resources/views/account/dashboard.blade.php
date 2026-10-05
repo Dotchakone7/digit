@@ -21,7 +21,7 @@
         @endforeach
     </div>
 
-    <div class="mt-8 grid gap-6 xl:grid-cols-[1fr_320px]">
+    <div class="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
         <section class="card">
             <div class="flex items-center justify-between border-b border-zinc-100 px-5 py-4 sm:px-6">
                 <h2 class="font-sans text-base font-semibold">Commandes récentes</h2>

@@ -8,7 +8,7 @@
         <a href="{{ route('admin.shipping-methods.create') }}" class="btn btn-primary"><x-icon name="plus" class="size-4" /> Nouveau mode</a>
     </x-admin.page-header>
     <div class="card overflow-hidden">
-        <table class="table-admin">
+        <div class="overflow-x-auto"><table class="table-admin">
             <thead><tr><th>Mode</th><th>Délai</th><th class="text-right">Tarif</th><th class="text-right">Gratuit dès</th><th class="text-right">Commandes</th><th>Statut</th><th></th></tr></thead>
             <tbody>
                 @forelse ($methods as $method)
@@ -28,6 +28,6 @@
                     <tr><td colspan="7"><x-empty-state icon="truck" title="Aucun mode de livraison" /></td></tr>
                 @endforelse
             </tbody>
-        </table>
+        </table></div>
     </div>
 @endsection

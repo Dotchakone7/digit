@@ -15,6 +15,7 @@
 @section('title', $product->meta_title ?: $product->name)
 @section('meta_description', $product->meta_description ?: ($product->short_description ?: \Illuminate\Support\Str::limit(strip_tags($product->description), 160)))
 @section('og_type', 'product')
+@section('sticky_bar', '1')
 @section('og_image', $product->image_url ?? '')
 @section('canonical', route('products.show', $product))
 
@@ -116,7 +117,7 @@
                 <div class="mt-6 flex flex-wrap items-center gap-3">
                     <span class="font-display text-3xl font-bold text-brand-900 tabular-nums sm:text-4xl" x-text="price">{{ money($product->currentPrice()) }}</span>
                     @if ($product->isOnSale())
-                        <span class="text-lg text-zinc-400 line-through tabular-nums" x-show="!variant?.price"><span class="sr-only">Prix initial :</span>{{ money($product->price) }}</span>
+                        <span class="text-lg text-zinc-500 line-through tabular-nums" x-show="!variant?.price"><span class="sr-only">Prix initial :</span>{{ money($product->price) }}</span>
                         <span class="badge badge-accent" x-show="!variant?.price">Économisez {{ money($product->price - $product->currentPrice()) }}</span>
                     @endif
                 </div>

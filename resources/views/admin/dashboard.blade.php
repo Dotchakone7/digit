@@ -22,7 +22,7 @@
         <x-admin.stat-card label="Clients" :value="number_format($kpis['customers'], 0, ',', ' ')" icon="users" :hint="$kpis['products'].' produits en ligne · '.$kpis['low_stock'].' en stock faible'" :href="route('admin.users.index', ['role' => 'customer'])" />
     </div>
 
-    <div class="mt-6 grid gap-6 xl:grid-cols-3">
+    <div class="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
         {{-- Sales chart: single series, no legend (the title names it), hover tooltip + table view --}}
         @php
             $max = max(1, collect($salesChart)->max('total'));
@@ -95,7 +95,7 @@
         </section>
     </div>
 
-    <div class="mt-6 grid gap-6 xl:grid-cols-3">
+    <div class="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
         <section class="card overflow-hidden xl:col-span-2">
             <div class="flex items-center justify-between px-5 py-4">
                 <h2 class="text-base font-semibold text-zinc-900">Commandes récentes</h2>

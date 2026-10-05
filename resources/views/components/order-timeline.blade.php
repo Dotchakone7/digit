@@ -28,7 +28,7 @@
                 <x-icon :name="$step['done'] ? 'check' : $step['icon']" class="size-4" />
             </span>
             <div class="pt-1.5">
-                <p @class(['text-sm font-semibold', 'text-brand-900' => $step['done'] || $isCurrent, 'text-zinc-400' => ! $step['done'] && ! $isCurrent])>
+                <p @class(['text-sm font-semibold', 'text-brand-900' => $step['done'] || $isCurrent, 'text-zinc-500' => ! $step['done'] && ! $isCurrent])>
                     {{ $step['label'] }} @if ($isCurrent)<span class="badge badge-primary ml-1">En cours</span>@endif
                 </p>
                 @if ($step['at'])

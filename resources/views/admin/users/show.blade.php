@@ -7,7 +7,7 @@
         <span @class(['badge px-3 py-1 text-sm', 'badge-success' => $user->is_active, 'badge-danger' => ! $user->is_active])>{{ $user->is_active ? 'Compte actif' : 'Compte désactivé' }}</span>
     </x-admin.page-header>
 
-    <div class="grid gap-6 xl:grid-cols-[1fr_340px]">
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <div class="space-y-6">
             <div class="grid gap-4 sm:grid-cols-3">
                 <x-admin.stat-card label="Commandes" :value="$stats['orders']" icon="box" />

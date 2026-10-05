@@ -37,7 +37,7 @@
             </ol>
         </div>
 
-        <form method="POST" action="{{ route('checkout.store') }}" class="mt-8 grid gap-8 lg:grid-cols-[1fr_400px]" novalidate>
+        <form method="POST" action="{{ route('checkout.store') }}" class="mt-8 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_400px]" novalidate>
             @csrf
             <div class="space-y-6">
                 {{-- 1. Contact --}}

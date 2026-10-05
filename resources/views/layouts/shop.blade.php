@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
 </head>
-<body class="flex min-h-screen flex-col">
+<body @class(["flex min-h-screen flex-col", "pb-20 lg:pb-0" => View::hasSection("sticky_bar")])>
     <a href="#contenu" class="sr-only z-[100] rounded-full bg-brand-900 px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Aller au contenu</a>
 
     @include('partials.header')
@@ -26,7 +26,7 @@
     <x-confirm-dialog />
     <x-toasts />
     @if (config('assistant.enabled'))
-        @include('partials.assistant')
+        @include('partials.assistant', ['hasStickyBar' => View::hasSection('sticky_bar')])
     @endif
     @stack('scripts')
 </body>

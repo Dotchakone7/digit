@@ -16,7 +16,7 @@
             </div>
         </template>
 
-        <div class="mt-8 grid gap-8 lg:grid-cols-[1fr_380px]" x-show="$store.cart.summary?.items.length">
+        <div class="mt-8 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_380px]" x-show="$store.cart.summary?.items.length">
             <div class="card overflow-hidden">
                 <ul class="divide-y divide-zinc-100">
                     <template x-for="item in $store.cart.summary?.items ?? []" :key="item.id + '-' + item.quantity">

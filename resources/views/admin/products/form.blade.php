@@ -17,7 +17,7 @@
         @endif
     </x-admin.page-header>
 
-    <form method="POST" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data" class="grid gap-6 xl:grid-cols-[1fr_340px]">
+    <form method="POST" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data" class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         @csrf
         @if ($product->exists) @method('PUT') @endif
 
@@ -32,7 +32,7 @@
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div>
                         <label for="slug" class="label">Slug (URL)</label>
-                        <div class="flex items-center rounded-lg ring-1 ring-zinc-200 focus-within:ring-2 focus-within:ring-brand-900"><span class="pl-3 text-xs text-zinc-400">/produit/</span><input id="slug" name="slug" x-model="slug" @input="locked = true" class="w-full border-0 bg-transparent px-1 py-2 text-sm focus:ring-0 focus:outline-none"></div>
+                        <div class="flex items-center rounded-lg ring-1 ring-zinc-200 focus-within:ring-2 focus-within:ring-brand-900"><span class="pl-3 text-xs text-zinc-500">/produit/</span><input id="slug" name="slug" x-model="slug" @input="locked = true" class="w-full border-0 bg-transparent px-1 py-2 text-sm focus:ring-0 focus:outline-none"></div>
                         @error('slug')<p class="field-error">{{ $message }}</p>@enderror
                     </div>
                     <x-form.input name="sku" label="Référence (SKU)" :value="$product->sku" required maxlength="64" class="[&_input]:font-mono [&_input]:uppercase" />

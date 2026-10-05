@@ -19,7 +19,8 @@
     .input { @apply rounded-lg py-2; }
     .card { @apply rounded-xl shadow-xs; }
 
-    .table-admin { @apply w-full text-left text-sm; }
+    /* relative: keeps absolutely positioned children (sr-only labels) inside the scroll container. */
+    .table-admin { @apply relative w-full text-left text-sm; }
     .table-admin thead th { @apply bg-zinc-50/80 px-4 py-3 text-xs font-semibold tracking-wide text-zinc-500 uppercase; }
     .table-admin tbody td { @apply border-t border-zinc-100 px-4 py-3 align-middle; }
     .table-admin tbody tr { @apply transition hover:bg-zinc-50/70; }

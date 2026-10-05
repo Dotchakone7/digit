@@ -9,10 +9,10 @@
 
     <nav class="scrollbar-none -mx-4 mb-4 flex gap-1 overflow-x-auto px-4 sm:mx-0 sm:px-0" aria-label="Filtrer par statut">
         @php($current = $filters['status'] ?? null)
-        <a href="{{ route('admin.orders.index', \Illuminate\Support\Arr::except(request()->query(), ['status', 'page'])) }}" @class(['shrink-0 rounded-lg px-3 py-1.5 text-sm font-medium', 'bg-brand-900 text-white' => ! $current, 'text-zinc-600 hover:bg-white' => $current])>Toutes <span class="opacity-60">{{ $statusCounts->sum() }}</span></a>
+        <a href="{{ route('admin.orders.index', \Illuminate\Support\Arr::except(request()->query(), ['status', 'page'])) }}" @class(['shrink-0 rounded-lg px-3 py-1.5 text-sm font-medium', 'bg-brand-900 text-white' => ! $current, 'text-zinc-600 hover:bg-white' => $current])>Toutes <span class="font-normal tabular-nums">{{ $statusCounts->sum() }}</span></a>
         @foreach (\App\Enums\OrderStatus::cases() as $status)
             <a href="{{ route('admin.orders.index', array_merge(\Illuminate\Support\Arr::except(request()->query(), 'page'), ['status' => $status->value])) }}" @class(['shrink-0 rounded-lg px-3 py-1.5 text-sm font-medium', 'bg-brand-900 text-white' => $current === $status->value, 'text-zinc-600 hover:bg-white' => $current !== $status->value])>
-                {{ $status->label() }} <span class="opacity-60">{{ $statusCounts[$status->value] ?? 0 }}</span>
+                {{ $status->label() }} <span class="font-normal tabular-nums">{{ $statusCounts[$status->value] ?? 0 }}</span>
             </a>
         @endforeach
     </nav>

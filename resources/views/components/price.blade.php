@@ -5,7 +5,7 @@
         {{ money($product->currentPrice()) }}
     </span>
     @if ($product->isOnSale())
-        <span @class(['text-zinc-400 line-through tabular-nums', 'text-sm' => $size !== 'lg', 'text-lg' => $size === 'lg'])>
+        <span @class(['text-zinc-500 line-through tabular-nums', 'text-sm' => $size !== 'lg', 'text-lg' => $size === 'lg'])>
             <span class="sr-only">Prix initial :</span>{{ money($product->price) }}
         </span>
     @endif

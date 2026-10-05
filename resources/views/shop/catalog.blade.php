@@ -43,7 +43,7 @@
     </div>
 
     <div class="container-shop py-8" x-data="{ filters: false }">
-        <div class="grid gap-8 lg:grid-cols-[250px_1fr]">
+        <div class="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[250px_minmax(0,1fr)]">
             {{-- Filters: sidebar on desktop, drawer on mobile --}}
             <div x-show="filters" x-cloak class="fixed inset-0 z-[70] bg-brand-950/40 lg:hidden" x-transition.opacity @click="filters = false"></div>
             <aside class="fixed inset-y-0 left-0 z-[75] w-[86%] max-w-sm -translate-x-full overflow-y-auto bg-white p-5 shadow-2xl transition-transform duration-300 lg:static lg:z-auto lg:w-auto lg:max-w-none lg:translate-x-0 lg:overflow-visible lg:bg-transparent lg:p-0 lg:shadow-none"

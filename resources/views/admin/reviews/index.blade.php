@@ -6,7 +6,7 @@
     <x-admin.page-header title="Avis clients" subtitle="Seuls les avis approuvés sont publiés sur la boutique." />
     <nav class="mb-4 flex gap-1" aria-label="Statut des avis">
         @foreach (\App\Enums\ReviewStatus::cases() as $s)
-            <a href="{{ route('admin.reviews.index', ['status' => $s->value]) }}" @class(['rounded-lg px-3 py-1.5 text-sm font-medium', 'bg-brand-900 text-white' => $status === $s, 'text-zinc-600 hover:bg-white' => $status !== $s])>{{ $s->label() }} <span class="opacity-60">{{ $counts[$s->value] ?? 0 }}</span></a>
+            <a href="{{ route('admin.reviews.index', ['status' => $s->value]) }}" @class(['rounded-lg px-3 py-1.5 text-sm font-medium', 'bg-brand-900 text-white' => $status === $s, 'text-zinc-600 hover:bg-white' => $status !== $s])>{{ $s->label() }} <span class="font-normal tabular-nums">{{ $counts[$s->value] ?? 0 }}</span></a>
         @endforeach
     </nav>
     <div class="space-y-3">

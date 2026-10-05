@@ -32,7 +32,7 @@
         </div>
     @endforeach
 
-    <div class="mt-6 grid gap-6 xl:grid-cols-[1fr_320px]">
+    <div class="mt-6 grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
         <div class="space-y-6">
             <section class="card">
                 <h2 class="border-b border-zinc-100 px-5 py-4 font-sans text-base font-semibold sm:px-6">Articles</h2>

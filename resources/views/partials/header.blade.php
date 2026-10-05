@@ -109,7 +109,7 @@
                 <a href="{{ route('catalog.index') }}" class="flex items-center justify-between rounded-xl px-3 py-3 text-base font-semibold text-brand-900 hover:bg-zinc-50">Toute la boutique <x-icon name="arrow-right" class="size-4" /></a>
                 <a href="{{ route('catalog.index', ['on_sale' => 1]) }}" class="flex items-center justify-between rounded-xl px-3 py-3 text-base font-semibold text-accent-700 hover:bg-accent-50">Promotions <x-icon name="percent" class="size-4" /></a>
                 <a href="{{ route('catalog.index', ['sort' => 'newest']) }}" class="flex items-center justify-between rounded-xl px-3 py-3 text-base font-semibold text-brand-900 hover:bg-zinc-50">Nouveautés <x-icon name="sparkles" class="size-4" /></a>
-                <p class="mt-5 mb-2 px-3 text-xs font-bold tracking-widest text-zinc-400 uppercase">Catégories</p>
+                <p class="mt-5 mb-2 px-3 text-xs font-bold tracking-widest text-zinc-500 uppercase">Catégories</p>
                 @foreach ($navCategories as $category)
                     <div x-data="{ open: false }">
                         <div class="flex items-center">

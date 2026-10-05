@@ -35,7 +35,7 @@
                             <td class="text-zinc-600">{{ $product->category?->name ?? '—' }}</td>
                             <td class="text-right tabular-nums">
                                 <span class="font-medium">{{ money($product->currentPrice()) }}</span>
-                                @if ($product->isOnSale())<span class="block text-xs text-zinc-400 line-through">{{ money($product->price) }}</span>@endif
+                                @if ($product->isOnSale())<span class="block text-xs text-zinc-500 line-through">{{ money($product->price) }}</span>@endif
                             </td>
                             <td class="text-right">
                                 <span @class(['font-semibold tabular-nums', 'text-danger-700' => $product->stock === 0, 'text-warning-700' => $product->isLowStock(), 'text-zinc-900' => ! $product->isLowStock() && $product->stock > 0])>{{ $product->stock }}</span>

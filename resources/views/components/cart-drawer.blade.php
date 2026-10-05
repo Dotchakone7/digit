@@ -8,7 +8,7 @@
            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
            class="absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-white shadow-2xl">
         <header class="flex items-center justify-between border-b border-zinc-100 px-5 py-4">
-            <h2 id="cart-drawer-title" class="text-lg font-bold">Mon panier <span class="text-zinc-400" x-show="$store.cart.count" x-text="'(' + $store.cart.count + ')'"></span></h2>
+            <h2 id="cart-drawer-title" class="text-lg font-bold">Mon panier <span class="text-zinc-500" x-show="$store.cart.count" x-text="'(' + $store.cart.count + ')'"></span></h2>
             <button type="button" class="btn-icon" @click="$store.cart.open = false" aria-label="Fermer le panier"><x-icon name="x" /></button>
         </header>
 

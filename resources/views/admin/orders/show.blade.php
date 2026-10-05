@@ -19,7 +19,7 @@
         <x-status-badge :status="$order->status" class="px-3 py-1 text-sm" />
     </x-admin.page-header>
 
-    <div class="grid gap-6 xl:grid-cols-[1fr_360px]">
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div class="space-y-6">
             {{-- Workflow actions --}}
             @if ($transitions)
@@ -50,7 +50,7 @@
 
             <section class="card overflow-hidden">
                 <h2 class="px-5 py-4 text-base font-semibold">Produits commandés</h2>
-                <table class="table-admin">
+                <div class="overflow-x-auto"><table class="table-admin">
                     <thead><tr><th>Produit</th><th class="text-right">Prix unitaire</th><th class="text-right">Qté</th><th class="text-right">Total</th></tr></thead>
                     <tbody>
                         @foreach ($order->items as $item)
@@ -67,7 +67,7 @@
                             </tr>
                         @endforeach
                     </tbody>
-                </table>
+                </table></div>
                 <dl class="space-y-1.5 border-t border-zinc-100 px-5 py-4 text-sm">
                     <div class="flex justify-between"><dt class="text-zinc-500">Sous-total</dt><dd class="tabular-nums">{{ money($order->subtotal) }}</dd></div>
                     @if ($order->discount_total)<div class="flex justify-between text-success-700"><dt>Réduction ({{ $order->coupon_code }})</dt><dd class="tabular-nums">−{{ money($order->discount_total) }}</dd></div>@endif
@@ -78,7 +78,7 @@
 
             <section class="card overflow-hidden">
                 <h2 class="px-5 py-4 text-base font-semibold">Paiements</h2>
-                <table class="table-admin">
+                <div class="overflow-x-auto"><table class="table-admin">
                     <thead><tr><th>Référence</th><th>Moyen</th><th>Détails</th><th>Statut</th><th class="text-right"><span class="sr-only">Actions</span></th></tr></thead>
                     <tbody>
                         @forelse ($order->payments as $payment)
@@ -108,7 +108,7 @@
                             <tr><td colspan="5" class="py-6 text-center text-zinc-500">Aucun paiement initié.</td></tr>
                         @endforelse
                     </tbody>
-                </table>
+                </table></div>
             </section>
 
             @if ($order->notes)

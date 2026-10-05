@@ -1,4 +1,4 @@
-<div x-data="assistant('{{ route('assistant.message') }}')" class="fixed right-4 bottom-4 z-[60] sm:right-6 sm:bottom-6">
+<div x-data="assistant('{{ route('assistant.message') }}')" @class(["fixed right-4 z-[60] sm:right-6", "bottom-24 lg:bottom-6" => $hasStickyBar ?? false, "bottom-4 sm:bottom-6" => ! ($hasStickyBar ?? false)])>
     <div x-show="open" x-cloak x-transition.origin.bottom.right
          class="mb-3 flex h-[28rem] w-[min(22rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-zinc-900/5"
          role="dialog" aria-label="Assistant">

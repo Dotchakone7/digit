@@ -5,7 +5,7 @@
 @section('content')
     <x-admin.page-header :title="$category->exists ? 'Modifier la catégorie' : 'Nouvelle catégorie'" :back="route('admin.categories.index')" />
 
-    <form method="POST" enctype="multipart/form-data" action="{{ $category->exists ? route('admin.categories.update', $category) : route('admin.categories.store') }}" class="grid max-w-5xl gap-6 lg:grid-cols-[1fr_300px]">
+    <form method="POST" enctype="multipart/form-data" action="{{ $category->exists ? route('admin.categories.update', $category) : route('admin.categories.store') }}" class="grid max-w-5xl grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
         @csrf @if ($category->exists) @method('PUT') @endif
         <div class="card space-y-4 p-5" x-data="slugger(@js(old('name', $category->name)), @js(old('slug', $category->slug)), {{ $category->exists ? 'true' : 'false' }})">
             <div><label for="name" class="label">Nom <span class="text-danger-600">*</span></label><input id="name" name="name" x-model="name" @input="sync()" required maxlength="120" class="input @error('name') input-error @enderror">@error('name')<p class="field-error">{{ $message }}</p>@enderror</div>
