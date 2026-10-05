@@ -205,3 +205,5 @@ La CI GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) ex
 ## Architecture
 
 Vue d'ensemble, choix techniques et guides d'extension (paiement, livraison, notifications SMS/WhatsApp, assistant IA, application mobile, marketplace) : [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
+Pour comprendre la structure du code et apprendre à modifier, ajouter ou supprimer une fonctionnalité (recettes pas à pas) : [`docs/GUIDE-DEVELOPPEUR.md`](docs/GUIDE-DEVELOPPEUR.md).
