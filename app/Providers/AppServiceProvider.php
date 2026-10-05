@@ -10,7 +10,9 @@ use App\Payments\PaymentManager;
 use App\Services\Cart\CartService;
 use App\Services\SettingsService;
 use App\Services\WishlistService;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
@@ -39,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultView('components.pagination');
 
         $this->registerAbilities();
+        $this->localizeAuthMails();
         $this->registerRateLimiters();
         $this->shareLayoutData();
     }
@@ -51,6 +54,18 @@ class AppServiceProvider extends ServiceProvider
         foreach (array_keys(config('permissions.abilities')) as $ability) {
             Gate::define($ability, fn (User $user) => $user->is_active && in_array($ability, $user->abilities(), true));
         }
+    }
+
+    private function localizeAuthMails(): void
+    {
+        ResetPassword::toMailUsing(fn (User $user, string $token) => (new MailMessage)
+            ->subject('Réinitialisation de votre mot de passe — '.config('shop.name'))
+            ->greeting('Bonjour '.explode(' ', $user->name)[0].',')
+            ->line('Vous avez demandé la réinitialisation du mot de passe de votre compte.')
+            ->action('Choisir un nouveau mot de passe', route('password.reset', ['token' => $token, 'email' => $user->email]))
+            ->line('Ce lien expire dans '.config('auth.passwords.users.expire').' minutes.')
+            ->line('Si vous n’êtes pas à l’origine de cette demande, ignorez simplement cet e-mail.')
+            ->salutation('L’équipe '.config('shop.name')));
     }
 
     private function registerRateLimiters(): void

@@ -45,8 +45,11 @@ class DemoSeeder extends Seeder
         private readonly PaymentService $payments,
     ) {}
 
+    private Carbon $origin;
+
     public function run(): void
     {
+        $this->origin = Carbon::now();
         if (app()->isProduction()) {
             throw new RuntimeException('Les données de démonstration ne peuvent pas être chargées en production.');
         }
@@ -210,11 +213,11 @@ class DemoSeeder extends Seeder
             OrderStatus::Delivered, OrderStatus::Shipped, OrderStatus::Processing, OrderStatus::Confirmed,
             OrderStatus::Pending, OrderStatus::Cancelled];
 
-        $origin = Carbon::now();
+        $origin = $this->origin;
         $day = 58;
         foreach (range(1, 34) as $n) {
             $user = $customers[$n % count($customers)];
-            $placedAt = $origin->copy()->subDays(max(0, $day))->setTime(mt_rand(8, 20), mt_rand(0, 59));
+            $placedAt = $origin->copy()->subDays(max(0, $day))->setTime(mt_rand(8, 20), mt_rand(0, 59))->min($origin)->copy();
             $day -= mt_rand(1, 3);
             Carbon::setTestNow($placedAt);
 
@@ -266,13 +269,13 @@ class DemoSeeder extends Seeder
         }
 
         if ($target === OrderStatus::Cancelled) {
-            Carbon::setTestNow($placedAt->copy()->addHours(5));
+            Carbon::setTestNow($placedAt->copy()->addHours(5)->min($this->origin)->copy());
             $this->statuses->transition($order, OrderStatus::Cancelled, $admin, 'Client injoignable');
 
             return;
         }
 
-        $clock = $placedAt->copy()->addHours(2);
+        $clock = $placedAt->copy()->addHours(2)->min($this->origin)->copy();
         Carbon::setTestNow($clock);
         if ($gateway === 'manual_mobile_money') {
             $this->payments->markPaid($payment, $admin); // pending → confirmed
@@ -285,6 +288,9 @@ class DemoSeeder extends Seeder
                 break;
             }
             $clock->addHours(mt_rand(6, 26));
+            if ($clock->gt($this->origin)) {
+                break; // Never simulate events in the future: recent orders stay in progress.
+            }
             Carbon::setTestNow($clock);
             if ($step === OrderStatus::Shipped) {
                 $order->shipments()->create(['carrier' => 'Livreur partenaire', 'status' => 'pending']);

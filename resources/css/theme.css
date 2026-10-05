@@ -61,6 +61,9 @@
     --color-info-600: #2563eb;
     --color-info-700: #1d4ed8;
 
+    /* Data visualisation (validated: chroma, lightness band, 3:1 contrast on white) */
+    --color-chart-1: #3a62b0;
+
     /* Surfaces */
     --color-canvas: #fafaf8;
     --color-sand: #f4f1ec;

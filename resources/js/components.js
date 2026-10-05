@@ -255,7 +255,8 @@ export function enhanceForms(Alpine) {
 
         const button = event.submitter ?? form.querySelector('[type="submit"]');
         if (button?.dataset.loading !== undefined && !event.defaultPrevented) {
-            button.disabled = true;
+            // Disable on the next tick so a named submitter's value is still sent.
+            setTimeout(() => (button.disabled = true));
             button.dataset.originalHtml = button.innerHTML;
             button.innerHTML = `<span class="spinner"></span><span>${button.dataset.loading || 'Patientez…'}</span>`;
         }

@@ -21,6 +21,11 @@ class ShippingMethod extends Model
         ];
     }
 
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function scopeActive(Builder $query): void
     {
         $query->where('is_active', true)->orderBy('position')->orderBy('price');
