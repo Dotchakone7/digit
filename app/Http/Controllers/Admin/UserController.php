@@ -30,9 +30,9 @@ class UserController extends Controller
                 ->withCount('orders')
                 ->withSum(['orders as revenue' => fn ($q) => $q->revenue()], 'total')
                 ->when($filters['q'] ?? null, fn ($q, $t) => $q->where(fn ($w) => $w
-                    ->where('name', 'like', '%'.addcslashes($t, '%_\\').'%')
-                    ->orWhere('email', 'like', '%'.addcslashes(mb_strtolower($t), '%_\\').'%')
-                    ->orWhere('phone', 'like', '%'.addcslashes($t, '%_\\').'%')))
+                    ->whereLike('name', '%'.addcslashes($t, '%_\\').'%', caseSensitive: false)
+                    ->orWhereLike('email', '%'.addcslashes($t, '%_\\').'%', caseSensitive: false)
+                    ->orWhereLike('phone', '%'.addcslashes($t, '%_\\').'%', caseSensitive: false)))
                 ->when($filters['role'] ?? null, fn ($q, $r) => $q->whereHas('role', fn ($w) => $w->where('slug', $r)))
                 ->when(isset($filters['active']), fn ($q) => $q->where('is_active', $filters['active'] === '1'))
                 ->latest('id')->paginate(20)->withQueryString(),

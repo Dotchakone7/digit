@@ -1,5 +1,7 @@
 <?php
 
+use App\Delivery\Couriers\LinkCourierProvider;
+
 return [
 
     /*
@@ -20,6 +22,6 @@ return [
     ],
 
     'drivers' => [
-        'link' => App\Delivery\Couriers\LinkCourierProvider::class,
+        'link' => LinkCourierProvider::class,
     ],
 ];

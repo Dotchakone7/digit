@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -139,7 +138,7 @@ class ProductSearch
             $to = 'aaaaaaceeeeiiiinooooouuuuyyoa';
             $query->whereRaw("translate(lower({$wrapped}), '{$from}', '{$to}') like ?", [$needle], $boolean);
         } else {
-            $query->whereRaw("lower({$wrapped}) like ? escape '\\'", [$needle], $boolean);
+            $query->whereRaw("shop_normalize({$wrapped}) like ? escape '\\'", [$needle], $boolean);
         }
     }
 

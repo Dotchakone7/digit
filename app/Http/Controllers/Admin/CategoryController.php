@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
@@ -90,7 +91,7 @@ class CategoryController extends Controller
         ], [], ['parent_id' => 'catégorie parente']);
 
         if ($category->exists && $category->children()->exists() && filled($data['parent_id'] ?? null)) {
-            throw \Illuminate\Validation\ValidationException::withMessages(['parent_id' => 'Une catégorie qui a des sous-catégories ne peut pas devenir une sous-catégorie.']);
+            throw ValidationException::withMessages(['parent_id' => 'Une catégorie qui a des sous-catégories ne peut pas devenir une sous-catégorie.']);
         }
 
         if ($request->hasFile('image')) {

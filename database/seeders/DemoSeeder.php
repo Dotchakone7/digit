@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\CouponType;
 use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use App\Enums\ProductStatus;
 use App\Enums\ReviewStatus;
 use App\Enums\RoleSlug;
@@ -261,7 +262,7 @@ class DemoSeeder extends Seeder
             'currency' => $order->currency,
             'meta' => $gateway === 'manual_mobile_money' ? ['operator' => collect(['orange', 'mtn', 'moov', 'wave'])->random(), 'transaction_id' => 'TX'.mt_rand(10000000, 99999999)] : null,
         ]);
-        $payment->status = \App\Enums\PaymentStatus::Pending;
+        $payment->status = PaymentStatus::Pending;
         $payment->save();
 
         if ($target === OrderStatus::Pending) {

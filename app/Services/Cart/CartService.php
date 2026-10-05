@@ -19,16 +19,23 @@ class CartService
 
     private ?Cart $cart = null;
 
+    /** Owner the memoized cart belongs to (user id or guest token). */
+    private ?string $cartOwner = null;
+
     public function __construct(private readonly CouponService $coupons) {}
 
     /** Current visitor cart (created lazily on first write). */
     public function current(bool $create = false): ?Cart
     {
-        if ($this->cart !== null) {
+        $user = auth()->user();
+        $owner = $user ? 'user:'.$user->id : 'guest:'.session(self::SESSION_KEY);
+
+        if ($this->cart !== null && $this->cartOwner === $owner) {
             return $this->cart;
         }
 
-        $user = auth()->user();
+        $this->cart = null;
+        $this->cartOwner = $owner;
 
         $cart = $user
             ? Cart::query()->firstWhere('user_id', $user->id)
@@ -38,6 +45,7 @@ class CartService
             $cart = $user
                 ? Cart::query()->create(['user_id' => $user->id])
                 : Cart::query()->create(['session_id' => $this->sessionToken()]);
+            $this->cartOwner = $user ? 'user:'.$user->id : 'guest:'.session(self::SESSION_KEY);
         }
 
         return $this->cart = $cart;
@@ -132,7 +140,8 @@ class CartService
 
         $subtotal = (int) $items->sum(fn (CartItem $item) => $item->lineTotal());
 
-        $coupon = $cart->coupon;
+        // Always re-read: the coupon may have been applied earlier in this same request.
+        $coupon = $cart->coupon_id ? $cart->coupon()->first() : null;
         $discount = 0;
 
         if ($coupon && $this->coupons->isUsable($coupon, $subtotal, auth()->user())) {

@@ -9,14 +9,18 @@ class WishlistService
 {
     private ?array $ids = null;
 
+    private ?int $userId = null;
+
     /** Product IDs in the current user's wishlist (one query per request). */
     public function ids(): array
     {
-        if ($this->ids !== null) {
+        $user = auth()->user();
+
+        if ($this->ids !== null && $this->userId === $user?->id) {
             return $this->ids;
         }
 
-        $user = auth()->user();
+        $this->userId = $user?->id;
 
         return $this->ids = $user ? $user->wishlist()->pluck('products.id')->all() : [];
     }

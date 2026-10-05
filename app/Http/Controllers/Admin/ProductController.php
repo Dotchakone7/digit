@@ -34,8 +34,8 @@ class ProductController extends Controller
             ->with(['primaryImage', 'category:id,name'])
             ->withCount('variants')
             ->when($filters['q'] ?? null, fn ($q, $term) => $q->where(fn ($w) => $w
-                ->where('name', 'like', '%'.addcslashes($term, '%_\\').'%')
-                ->orWhere('sku', 'like', '%'.addcslashes(mb_strtoupper($term), '%_\\').'%')))
+                ->whereLike('name', '%'.addcslashes($term, '%_\\').'%', caseSensitive: false)
+                ->orWhereLike('sku', '%'.addcslashes($term, '%_\\').'%', caseSensitive: false)))
             ->when($filters['category'] ?? null, fn ($q, $id) => $q->where('category_id', $id))
             ->when($filters['status'] ?? null, fn ($q, $status) => $q->where('status', $status))
             ->when(($filters['stock'] ?? null) === 'low', fn ($q) => $q->lowStock()->where('stock', '>', 0))

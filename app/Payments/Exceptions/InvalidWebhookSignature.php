@@ -4,6 +4,4 @@ namespace App\Payments\Exceptions;
 
 use RuntimeException;
 
-class InvalidWebhookSignature extends RuntimeException
-{
-}
+class InvalidWebhookSignature extends RuntimeException {}

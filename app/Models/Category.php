@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 #[Fillable(['parent_id', 'name', 'slug', 'description', 'image_path', 'is_active', 'position', 'meta_title', 'meta_description'])]
 class Category extends Model
@@ -24,7 +25,7 @@ class Category extends Model
 
     protected static function booted(): void
     {
-        $flush = fn () => \Illuminate\Support\Facades\Cache::deleteMultiple(['nav.categories', 'catalog.vocabulary', 'seo.sitemap']);
+        $flush = fn () => Cache::deleteMultiple(['nav.categories', 'catalog.vocabulary', 'seo.sitemap']);
         static::saved($flush);
         static::deleted($flush);
     }

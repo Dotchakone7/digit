@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 #[Fillable([
     'category_id', 'name', 'slug', 'sku', 'short_description', 'description', 'price', 'sale_price',
@@ -43,7 +44,7 @@ class Product extends Model
 
     protected static function booted(): void
     {
-        $flush = fn () => \Illuminate\Support\Facades\Cache::deleteMultiple(['catalog.vocabulary', 'seo.sitemap']);
+        $flush = fn () => Cache::deleteMultiple(['catalog.vocabulary', 'seo.sitemap']);
         static::saved($flush);
         static::deleted($flush);
     }

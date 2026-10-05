@@ -27,8 +27,8 @@ class PaymentController extends Controller
             'payments' => Payment::query()->with('order:id,number,customer_name,status')
                 ->when($filters['status'] ?? null, fn ($q, $s) => $q->where('status', $s))
                 ->when($filters['gateway'] ?? null, fn ($q, $g) => $q->where('gateway', $g))
-                ->when($filters['q'] ?? null, fn ($q, $t) => $q->where(fn ($w) => $w->where('reference', 'like', '%'.addcslashes(mb_strtoupper($t), '%_\\').'%')
-                    ->orWhereHas('order', fn ($o) => $o->where('number', 'like', '%'.addcslashes(mb_strtoupper($t), '%_\\').'%'))))
+                ->when($filters['q'] ?? null, fn ($q, $t) => $q->where(fn ($w) => $w->whereLike('reference', '%'.addcslashes($t, '%_\\').'%', caseSensitive: false)
+                    ->orWhereHas('order', fn ($o) => $o->whereLike('number', '%'.addcslashes($t, '%_\\').'%', caseSensitive: false))))
                 ->latest('id')->paginate(25)->withQueryString(),
             'filters' => $filters,
             'toVerify' => Payment::query()->where('status', PaymentStatus::Processing)->count(),

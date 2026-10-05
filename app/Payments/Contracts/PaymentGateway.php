@@ -2,10 +2,10 @@
 
 namespace App\Payments\Contracts;
 
+use App\Enums\PaymentStatus;
 use App\Models\Payment;
 use App\Payments\Data\PaymentInitiation;
 use App\Payments\Data\WebhookResult;
-use App\Enums\PaymentStatus;
 use Illuminate\Http\Request;
 
 /**

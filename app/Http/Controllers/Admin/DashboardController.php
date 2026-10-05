@@ -7,11 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderStatusHistory;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ReturnRequest;
 use App\Models\Review;
 use App\Models\User;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -48,7 +48,7 @@ class DashboardController extends Controller
             'activity' => OrderStatusHistory::query()->with(['order:id,number', 'user:id,name'])->latest('created_at')->latest('id')->limit(8)->get(),
             'todo' => [
                 'pending_reviews' => Review::query()->where('status', 'pending')->count(),
-                'payments_to_check' => \App\Models\Payment::query()->where('status', 'processing')->count(),
+                'payments_to_check' => Payment::query()->where('status', 'processing')->count(),
                 'open_returns' => ReturnRequest::query()->whereIn('status', ['requested', 'approved', 'received'])->count(),
             ],
         ]);

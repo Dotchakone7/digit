@@ -1,5 +1,7 @@
 <?php
 
+use App\Assistant\Drivers\RuleBasedAssistant;
+
 return [
 
     /*
@@ -12,7 +14,7 @@ return [
     'driver' => env('ASSISTANT_DRIVER', 'rules'),
 
     'drivers' => [
-        'rules' => App\Assistant\Drivers\RuleBasedAssistant::class,
+        'rules' => RuleBasedAssistant::class,
     ],
 
     // Credentials for future LLM drivers — read from .env only.

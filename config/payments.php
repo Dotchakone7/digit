@@ -1,5 +1,9 @@
 <?php
 
+use App\Payments\Gateways\CashOnDeliveryGateway;
+use App\Payments\Gateways\ManualMobileMoneyGateway;
+use App\Payments\Gateways\SandboxGateway;
+
 return [
 
     /*
@@ -16,7 +20,7 @@ return [
     'gateways' => [
 
         'cash_on_delivery' => [
-            'driver' => App\Payments\Gateways\CashOnDeliveryGateway::class,
+            'driver' => CashOnDeliveryGateway::class,
             'label' => 'Paiement à la livraison',
             'description' => 'Réglez en espèces ou par Mobile Money à la réception de votre commande.',
         ],
@@ -27,7 +31,7 @@ return [
         | "processing" until a staff member verifies it in the back-office.
         */
         'manual_mobile_money' => [
-            'driver' => App\Payments\Gateways\ManualMobileMoneyGateway::class,
+            'driver' => ManualMobileMoneyGateway::class,
             'label' => 'Mobile Money (transfert)',
             'description' => 'Orange Money, MTN MoMo, Moov Money ou Wave : transférez puis indiquez la référence.',
             'operators' => [
@@ -44,7 +48,7 @@ return [
         | NEVER enabled in production (enforced by PaymentManager).
         */
         'sandbox' => [
-            'driver' => App\Payments\Gateways\SandboxGateway::class,
+            'driver' => SandboxGateway::class,
             'label' => 'Paiement test (sandbox)',
             'description' => 'Simulateur de prestataire pour le développement.',
             'secret' => env('PAYMENT_SANDBOX_SECRET'),

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\ProductStatus;
+use App\Models\Product;
 use App\Support\Money;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
@@ -14,7 +15,7 @@ class ProductRequest extends FormRequest
     {
         $product = $this->route('product');
 
-        return $product ? $this->user()->can('update', $product) : $this->user()->can('create', \App\Models\Product::class);
+        return $product ? $this->user()->can('update', $product) : $this->user()->can('create', Product::class);
     }
 
     /** Amounts are typed in major units ("12 500") and stored in minor units. */

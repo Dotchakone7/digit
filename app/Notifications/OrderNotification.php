@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -34,7 +35,7 @@ abstract class OrderNotification extends Notification implements ShouldQueue
         $channels = config('shop.notification_channels', ['mail']);
 
         // On-demand notifiables (guest e-mails) have no database storage.
-        return $notifiable instanceof \App\Models\User ? $channels : array_values(array_diff($channels, ['database']));
+        return $notifiable instanceof User ? $channels : array_values(array_diff($channels, ['database']));
     }
 
     public function toMail(object $notifiable): MailMessage

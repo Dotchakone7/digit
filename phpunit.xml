@@ -28,6 +28,11 @@
         <env name="DB_URL" value=""/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="PAYMENT_GATEWAYS" value="cash_on_delivery,manual_mobile_money,sandbox"/>
+        <env name="PAYMENT_SANDBOX_SECRET" value="test-secret"/>
+        <env name="MOMO_ORANGE_NUMBER" value="0700000000"/>
+        <env name="SHOP_ADMIN_NOTIFICATION_EMAIL" value=""/>
+        <env name="ASSISTANT_ENABLED" value="false"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>

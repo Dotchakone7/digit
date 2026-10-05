@@ -1,7 +1,9 @@
 <?php
 
+use App\Enums\RoleSlug;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -15,6 +17,12 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
         });
+
+        // Reference data required by registration and RBAC (RoleSeeder keeps descriptions up to date).
+        $now = now();
+        DB::table('roles')->insert(array_map(fn (RoleSlug $role) => [
+            'slug' => $role->value, 'name' => $role->label(), 'created_at' => $now, 'updated_at' => $now,
+        ], RoleSlug::cases()));
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();

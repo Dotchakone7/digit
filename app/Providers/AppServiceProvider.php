@@ -12,15 +12,18 @@ use App\Services\SettingsService;
 use App\Services\WishlistService;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Events\ConnectionEstablished;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
         Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
         Paginator::defaultView('components.pagination');
 
+        $this->registerSqliteFunctions();
         $this->registerAbilities();
         $this->localizeAuthMails();
         $this->registerRateLimiters();
@@ -54,6 +58,18 @@ class AppServiceProvider extends ServiceProvider
         foreach (array_keys(config('permissions.abilities')) as $ability) {
             Gate::define($ability, fn (User $user) => $user->is_active && in_array($ability, $user->abilities(), true));
         }
+    }
+
+    /** PostgreSQL uses translate(); SQLite (tests, quick local setup) gets an equivalent function. */
+    private function registerSqliteFunctions(): void
+    {
+        Event::listen(ConnectionEstablished::class, function (ConnectionEstablished $event) {
+            if ($event->connection->getDriverName() === 'sqlite') {
+                $event->connection->getPdo()->sqliteCreateFunction(
+                    'shop_normalize', fn (?string $value) => $value === null ? null : Str::lower(Str::ascii($value)), 1
+                );
+            }
+        });
     }
 
     private function localizeAuthMails(): void

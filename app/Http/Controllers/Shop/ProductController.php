@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -36,7 +37,7 @@ class ProductController extends Controller
             'product' => $product,
             'similar' => $similar,
             'ratingBreakdown' => $ratingBreakdown,
-            'canReview' => $user && Gate::forUser($user)->allows('create', [\App\Models\Review::class, $product]),
+            'canReview' => $user && Gate::forUser($user)->allows('create', [Review::class, $product]),
             'hasReviewed' => $user && $product->reviews()->where('user_id', $user->id)->exists(),
         ]);
     }

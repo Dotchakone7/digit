@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatus;
 use App\Enums\RoleSlug;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -109,7 +110,7 @@ class User extends Authenticatable
     public function hasPurchased(Product $product): bool
     {
         return $this->orders()
-            ->where('status', \App\Enums\OrderStatus::Delivered)
+            ->where('status', OrderStatus::Delivered)
             ->whereHas('items', fn (Builder $q) => $q->where('product_id', $product->id))
             ->exists();
     }

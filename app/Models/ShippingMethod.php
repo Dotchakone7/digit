@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['code', 'name', 'description', 'price', 'free_over_amount', 'estimated_delay', 'is_active', 'position'])]
 class ShippingMethod extends Model
@@ -21,7 +22,7 @@ class ShippingMethod extends Model
         ];
     }
 
-    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }

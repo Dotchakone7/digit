@@ -119,10 +119,10 @@ class OrderController extends Controller
         return Order::query()
             ->when($filters['q'] ?? null, function (Builder $q, string $term) {
                 $like = '%'.addcslashes($term, '%_\\').'%';
-                $q->where(fn (Builder $w) => $w->where('number', 'like', '%'.addcslashes(mb_strtoupper($term), '%_\\').'%')
-                    ->orWhere('customer_name', 'like', $like)
-                    ->orWhere('customer_email', 'like', mb_strtolower($like))
-                    ->orWhere('customer_phone', 'like', $like));
+                $q->where(fn (Builder $w) => $w->whereLike('number', $like, caseSensitive: false)
+                    ->orWhereLike('customer_name', $like, caseSensitive: false)
+                    ->orWhereLike('customer_email', $like, caseSensitive: false)
+                    ->orWhereLike('customer_phone', $like, caseSensitive: false));
             })
             ->when($filters['status'] ?? null, fn (Builder $q, $s) => $q->where('status', $s))
             ->when($filters['payment_status'] ?? null, fn (Builder $q, $s) => $q->where('payment_status', $s))
