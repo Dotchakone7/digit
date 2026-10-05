@@ -1,0 +1,83 @@
+/* Shared UI primitives used by both the storefront and the back-office. */
+
+@layer base {
+    html { -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+    body { @apply font-sans text-zinc-800 antialiased; text-rendering: optimizeLegibility; }
+    h1, h2, h3, h4 { @apply font-display text-brand-900 tracking-tight; }
+    :focus-visible { @apply outline-2 outline-offset-2 outline-accent-500; }
+    [x-cloak] { display: none !important; }
+    ::selection { @apply bg-accent-200 text-brand-900; }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    }
+}
+
+@layer components {
+    .container-shop { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+
+    /* Buttons ---------------------------------------------------------- */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold whitespace-nowrap
+            transition duration-200 ease-out select-none cursor-pointer
+            focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500
+            disabled:cursor-not-allowed disabled:opacity-50 active:scale-[0.98];
+    }
+    .btn-primary { @apply bg-brand-900 text-white shadow-sm hover:bg-brand-800 hover:shadow-md; }
+    .btn-accent { @apply bg-accent-700 text-white shadow-sm hover:bg-accent-800 hover:shadow-md; }
+    .btn-secondary { @apply bg-white text-brand-900 ring-1 ring-zinc-200 ring-inset hover:bg-zinc-50 hover:ring-zinc-300; }
+    .btn-ghost { @apply text-brand-900 hover:bg-zinc-100; }
+    .btn-danger { @apply bg-danger-600 text-white hover:bg-danger-700; }
+    .btn-danger-soft { @apply bg-danger-50 text-danger-700 hover:bg-danger-100; }
+    .btn-success { @apply bg-success-600 text-white hover:bg-success-700; }
+    .btn-sm { @apply px-3.5 py-1.5 text-xs; }
+    .btn-lg { @apply px-7 py-3.5 text-base; }
+    .btn-icon { @apply inline-flex size-10 items-center justify-center rounded-full text-brand-900 transition hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-accent-500; }
+
+    /* Forms ------------------------------------------------------------ */
+    .label { @apply mb-1.5 block text-sm font-medium text-zinc-700; }
+    .input {
+        @apply block w-full rounded-xl border-0 bg-white px-3.5 py-2.5 text-sm text-zinc-900 shadow-xs ring-1 ring-zinc-200 ring-inset
+            placeholder:text-zinc-400 transition
+            focus:ring-2 focus:ring-brand-900 focus:outline-none
+            disabled:bg-zinc-50 disabled:text-zinc-500;
+    }
+    .input-error { @apply ring-danger-500 focus:ring-danger-600; }
+    .field-error { @apply mt-1.5 text-xs font-medium text-danger-700; }
+    .field-hint { @apply mt-1.5 text-xs text-zinc-500; }
+    .checkbox { @apply size-4 rounded border-zinc-300 text-brand-900 accent-brand-900 focus:ring-brand-900; }
+
+    /* Surfaces --------------------------------------------------------- */
+    .card { @apply rounded-[var(--radius-card)] bg-white shadow-[var(--shadow-soft)] ring-1 ring-zinc-900/5; }
+    .card-body { @apply p-5 sm:p-6; }
+    .divider { @apply border-t border-zinc-100; }
+
+    /* Badges ----------------------------------------------------------- */
+    .badge { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap; }
+    .badge-neutral { @apply bg-zinc-100 text-zinc-700; }
+    .badge-primary { @apply bg-brand-100 text-brand-800; }
+    .badge-accent { @apply bg-accent-700 text-white; }
+    .badge-success { @apply bg-success-50 text-success-700 ring-1 ring-success-500/20 ring-inset; }
+    .badge-danger { @apply bg-danger-50 text-danger-700 ring-1 ring-danger-500/20 ring-inset; }
+    .badge-warning { @apply bg-warning-50 text-warning-700 ring-1 ring-warning-500/25 ring-inset; }
+    .badge-info { @apply bg-info-50 text-info-700 ring-1 ring-info-500/20 ring-inset; }
+
+    /* Loading ---------------------------------------------------------- */
+    .skeleton {
+        @apply rounded-lg bg-zinc-100;
+        background-image: linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.65) 50%, transparent 100%);
+        background-size: 200% 100%;
+        animation: var(--animate-shimmer);
+    }
+    .spinner { @apply inline-block size-4 animate-spin rounded-full border-2 border-current border-r-transparent; }
+
+    .link { @apply font-medium text-brand-900 underline decoration-zinc-300 underline-offset-4 transition hover:decoration-accent-500; }
+    .prose-shop { @apply max-w-none text-[15px] leading-7 text-zinc-600; }
+    .prose-shop p + p { @apply mt-4; }
+    .prose-shop h2 { @apply mt-8 mb-3 text-xl font-semibold; }
+    .prose-shop h3 { @apply mt-6 mb-2 text-lg font-semibold; }
+    .prose-shop ul { @apply my-3 list-disc space-y-1 pl-5; }
+
+    .scrollbar-none { scrollbar-width: none; }
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+}

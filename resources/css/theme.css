@@ -1,0 +1,88 @@
+/*
+|--------------------------------------------------------------------------
+| VISUAL IDENTITY — single source of truth
+|--------------------------------------------------------------------------
+| Change the brand here only. Every view uses these tokens through Tailwind
+| utilities (bg-brand-900, text-accent-700, bg-success-50…), never raw hex.
+|
+|   brand   → primary color (buttons, header, headings)
+|   accent  → secondary/highlight color (promotions, highlights, CTAs)
+|   success / danger / warning / info → feedback colors
+|   --font-sans / --font-display → typography (fonts are self-hosted, see app.css)
+*/
+@theme {
+    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-display: 'Plus Jakarta Sans Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+    /* Primary — deep night blue */
+    --color-brand-50: #f2f5fa;
+    --color-brand-100: #e3e9f3;
+    --color-brand-200: #c6d2e6;
+    --color-brand-300: #9db1d2;
+    --color-brand-400: #6d88b8;
+    --color-brand-500: #4b689f;
+    --color-brand-600: #385183;
+    --color-brand-700: #2c406a;
+    --color-brand-800: #1c2d4f;
+    --color-brand-900: #0a1d37;
+    --color-brand-950: #061226;
+
+    /* Accent — warm orange */
+    --color-accent-50: #fff5f0;
+    --color-accent-100: #ffe8dc;
+    --color-accent-200: #ffcdb6;
+    --color-accent-300: #ffa985;
+    --color-accent-400: #ff8a5c;
+    --color-accent-500: #ff6b35;
+    --color-accent-600: #ed5420;
+    --color-accent-700: #c54016;
+    --color-accent-800: #9c3418;
+    --color-accent-900: #7e2e18;
+
+    /* Feedback */
+    --color-success-50: #ecfdf5;
+    --color-success-100: #d1fae5;
+    --color-success-500: #10b981;
+    --color-success-600: #059669;
+    --color-success-700: #047857;
+    --color-danger-50: #fef2f2;
+    --color-danger-100: #fee2e2;
+    --color-danger-500: #ef4444;
+    --color-danger-600: #dc2626;
+    --color-danger-700: #b91c1c;
+    --color-warning-50: #fffbeb;
+    --color-warning-100: #fef3c7;
+    --color-warning-500: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-warning-700: #b45309;
+    --color-info-50: #eff6ff;
+    --color-info-100: #dbeafe;
+    --color-info-500: #3b82f6;
+    --color-info-600: #2563eb;
+    --color-info-700: #1d4ed8;
+
+    /* Surfaces */
+    --color-canvas: #fafaf8;
+    --color-sand: #f4f1ec;
+
+    --radius-card: 1.25rem;
+    --shadow-soft: 0 1px 2px rgb(10 29 55 / 0.04), 0 8px 24px -12px rgb(10 29 55 / 0.12);
+    --shadow-lift: 0 2px 4px rgb(10 29 55 / 0.04), 0 18px 40px -18px rgb(10 29 55 / 0.25);
+
+    --animate-toast-in: toast-in 0.25s ease-out;
+    --animate-fade-up: fade-up 0.5s ease-out both;
+    --animate-shimmer: shimmer 1.4s linear infinite;
+
+    @keyframes toast-in {
+        from { opacity: 0; transform: translateY(8px) scale(0.98); }
+        to { opacity: 1; transform: none; }
+    }
+    @keyframes fade-up {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: none; }
+    }
+    @keyframes shimmer {
+        from { background-position: -200% 0; }
+        to { background-position: 200% 0; }
+    }
+}
