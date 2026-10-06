@@ -1,0 +1,5 @@
+# crontab -e  (utilisateur deploy)
+# Planificateur Laravel : expiration des paiements, nettoyage… (chaque minute)
+* * * * * cd /var/www/boutique/current && php artisan schedule:run >> /dev/null 2>&1
+# Sauvegarde quotidienne à 3 h du matin
+0 3 * * * /var/www/boutique/current/deploy/backup.sh >> /var/www/boutique/backups/backup.log 2>&1

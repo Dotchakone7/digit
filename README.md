@@ -36,7 +36,7 @@ Boutique en ligne complète, pensée pour le marché ouest-africain (FCFA, Mobil
 | Couche | Choix |
 |---|---|
 | Back-end | Laravel 13, PHP 8.3+ (8.4 recommandé en production) |
-| Base de données | PostgreSQL 16 (SQLite accepté pour les tests) |
+| Base de données | PostgreSQL 16 recommandé — MySQL 8 / MariaDB 10.6+ pris en charge (hébergement mutualisé) — SQLite pour les tests |
 | Front-end | Blade, Tailwind CSS 4, Alpine.js 3 (+ plugins `collapse`, `focus`), Vite 8 |
 | Polices | Inter et Plus Jakarta Sans auto-hébergées (Fontsource, aucun appel externe) |
 | Files d'attente | Laravel Queues (driver `database` par défaut) pour les notifications |
@@ -186,6 +186,12 @@ La suite couvre notamment : inscription / connexion / limitation de tentatives /
 La CI GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) exécute Pint, le build Vite et les tests sur PostgreSQL 16.
 
 ## Déploiement
+
+> **Procédure complète pas à pas** (VPS Ubuntu, Nginx, HTTPS, worker, sauvegardes, mises à jour, plusieurs clients, hébergement cPanel) : [`docs/DEPLOIEMENT.md`](docs/DEPLOIEMENT.md) — version PDF : `docs/DEPLOIEMENT.pdf`. Fichiers prêts à l'emploi dans [`deploy/`](deploy/).
+>
+> **Guide d'utilisation à remettre au client** (non technique, avec captures) : [`docs/GUIDE-UTILISATEUR.md`](docs/GUIDE-UTILISATEUR.md) — version PDF : `docs/GUIDE-UTILISATEUR.pdf`.
+
+Résumé :
 
 1. Serveur : PHP 8.4-FPM + Nginx (ou Laravel Forge / Ploi / un PaaS), PostgreSQL, HTTPS obligatoire.
 2. `.env` de production : `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL=https://…`, `SESSION_SECURE_COOKIE=true`, `SESSION_ENCRYPT=true`, `TRUSTED_PROXIES` si derrière un proxy, vrais identifiants SMTP et paiement, `PAYMENT_GATEWAYS` sans `sandbox`.
