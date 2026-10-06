@@ -29,6 +29,20 @@ Navigateur
 Navigateur (HTML + CSS Tailwind + JavaScript Alpine)
 ```
 
+**Les pages « vivantes » (Livewire).** Certaines parties de page se mettent à jour sans rechargement : le catalogue (filtres, tri, pagination), les tableaux de l'administration (produits, commandes, paiements, avis, utilisateurs), la fiche commande et le tableau de bord. Ce sont des **composants Livewire** : une classe PHP dans `app/Livewire/` + une vue dans `resources/views/livewire/`. Le trajet devient :
+
+```
+Page (contrôleur classique) ──► <livewire:admin.product-table />    ← le composant s'affiche une première fois
+Clic / frappe dans le navigateur ──► requête AJAX automatique (Livewire)
+   ──► app/Livewire/Admin/ProductTable.php   « propriétés publiques = l'état ; méthodes = les actions »
+         (droits revérifiés à CHAQUE requête : trait AuthorizesAbility + Gate::authorize)
+   ──► mêmes SERVICES et MODÈLES qu'un contrôleur
+   ──► la vue resources/views/livewire/admin/product-table.blade.php est recalculée
+   ──► Livewire remplace uniquement ce qui a changé dans la page
+```
+
+Dans les vues, repérez : `wire:model.live="search"` (le champ est lié à la propriété `$search`), `wire:click="delete(12)"` (appelle la méthode `delete()`), `wire:poll.20s` (rafraîchit toutes les 20 s), `wire:navigate` sur les liens (navigation sans rechargement complet). Les propriétés marquées `#[Url]` sont recopiées dans l'adresse (`?statut=pending`), ce qui garde les liens partageables.
+
 **Méthode pour trouver n'importe quel code :** partez de l'URL. Cherchez-la dans `routes/`, cela vous donne le contrôleur ; le contrôleur vous donne la vue et le service.
 
 > Astuce : `php artisan route:list` affiche toutes les URL avec leur contrôleur.
@@ -47,6 +61,8 @@ digit/
 │   ├── Enums/                  Listes de valeurs fixes : statuts de commande, rôles…
 │   ├── Events/ + Listeners/    « Quand X arrive, faire Y » (ex. commande créée → e-mail)
 │   ├── Exceptions/             BusinessException = erreur affichée proprement au client
+│   ├── Livewire/               ★ Composants dynamiques (Shop/Catalog, Admin/ProductTable, Admin/OrderManager…)
+│   │   └── Concerns/           Briques communes : droits (AuthorizesAbility), tri/recherche/pagination (WithTableState)
 │   ├── Http/
 │   │   ├── Controllers/
 │   │   │   ├── Shop/           Pages publiques : accueil, catalogue, produit, panier, commande
@@ -82,11 +98,12 @@ digit/
 │   │   ├── components.css      Styles des boutons, champs, cartes, badges
 │   │   ├── app.css             Feuille de la boutique
 │   │   └── admin.css           Feuille de l'administration
-│   ├── js/                     JavaScript (Alpine.js) : panier AJAX, recherche, toasts…
+│   ├── js/                     JavaScript : livewire.js (démarrage Livewire + Alpine), panier AJAX, toasts…
 │   └── views/                  ★ Les pages HTML (Blade)
 │       ├── layouts/            Gabarits : shop (boutique), account, admin, auth
 │       ├── partials/           Morceaux de layout : header, footer, recherche
 │       ├── components/         Briques : <x-product-card>, <x-icon>, <x-form.input>…
+│       ├── livewire/           ★ Vues des composants Livewire (shop/catalog, admin/*)
 │       ├── shop/               Pages publiques
 │       ├── account/            Espace client
 │       ├── admin/              Back-office
@@ -290,6 +307,9 @@ Puis vérifiez qu'il ne reste rien : refaites la recherche, puis `php artisan ro
 | Changer les étapes du statut de commande | `app/Enums/OrderStatus.php` (méthode `allowedTransitions()`) |
 | Changer le nombre de produits par page | `config/shop.php` → `per_page` |
 | Ajouter un moyen de paiement | voir [`ARCHITECTURE.md`](ARCHITECTURE.md), section Paiements |
+| Ajouter un filtre à un tableau admin | la classe `app/Livewire/Admin/XxxTable.php` (nouvelle propriété publique `#[Url]` + condition dans la requête) et un `<select wire:model.live="...">` dans `resources/views/livewire/admin/xxx-table.blade.php` |
+| Changer la fréquence de rafraîchissement | l'attribut `wire:poll.20s.visible` en haut de la vue Livewire concernée |
+| Ajouter une colonne triable | ajouter le champ dans `sortable()` du composant, puis `<x-admin.th-sort field="...">` dans la vue |
 
 ---
 
@@ -318,7 +338,8 @@ Puis vérifiez qu'il ne reste rien : refaites la recherche, puis `php artisan ro
 3. **Une modification n'apparaît pas ?** CSS/JS : relancez `npm run build` ou laissez tourner `npm run dev`. Config ou routes : `php artisan optimize:clear`.
 4. **Inspecter une valeur** : écrivez `dd($variable);` dans le contrôleur. La page s'arrête et l'affiche. **Pensez à l'enlever ensuite.**
 5. **Erreur 403** = la Policy ou `config/permissions.php` refuse. **Erreur 419** = jeton CSRF : il manque `@csrf` dans le formulaire.
-6. **Erreur « Attempted to lazy load »** : une relation est chargée dans une boucle (problème de performance N+1). Ajoutez `->with('relation')` à la requête du contrôleur.
+6. **Composant Livewire qui ne réagit pas** : ouvrez la console du navigateur (F12). Une erreur 403 dans une action Livewire signifie que l'utilisateur n'a pas l'ability demandée par `ability()` ou `Gate::authorize()`. Vérifiez aussi que la vue du composant n'a **qu'un seul élément racine** et que les éléments répétés ont un `wire:key` unique.
+7. **Erreur « Attempted to lazy load »** : une relation est chargée dans une boucle (problème de performance N+1). Ajoutez `->with('relation')` à la requête du contrôleur.
 
 ---
 
@@ -343,6 +364,7 @@ Une branche par fonctionnalité permet de montrer le travail, de le faire relire
 - **Laravel** (documentation officielle, très claire) : https://laravel.com/docs — commencez par *Routing*, *Controllers*, *Blade*, *Eloquent*, *Validation*, *Authorization*.
 - **Laracasts** (vidéos) : la série *« Laravel From Scratch »*.
 - **Tailwind CSS** : https://tailwindcss.com/docs — pour comprendre les classes `px-4`, `rounded-xl`…
-- **Alpine.js** : https://alpinejs.dev — les `x-data`, `@click`, `x-show` dans les vues.
+- **Livewire** : https://livewire.laravel.com/docs — commencez par *Components*, *Properties*, *Actions*, *wire:model*, *Pagination*.
+- **Alpine.js** : https://alpinejs.dev — les `x-data`, `@click`, `x-show` dans les vues (inclus dans Livewire).
 
 Le meilleur exercice : réalisez vous-même la **Recette A** (champ « Marque ») de bout en bout, sur une branche Git. Vous aurez touché toutes les couches du projet.

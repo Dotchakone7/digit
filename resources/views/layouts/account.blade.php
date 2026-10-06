@@ -26,7 +26,7 @@
                 </div>
                 <nav aria-label="Espace client" class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-col lg:gap-1 lg:px-0">
                     @foreach ($links as [$route, $label, $icon, $pattern])
-                        <a href="{{ route($route) }}" @class([
+                        <a wire:navigate href="{{ route($route) }}" @class([
                             'flex shrink-0 items-center gap-3 rounded-full px-4 py-2 text-sm font-medium transition lg:rounded-xl lg:py-2.5',
                             'bg-brand-900 text-white' => request()->routeIs($pattern),
                             'bg-white text-zinc-600 ring-1 ring-zinc-200 hover:text-brand-900 lg:bg-transparent lg:ring-0 lg:hover:bg-white' => ! request()->routeIs($pattern),

@@ -18,42 +18,12 @@ class ProductController extends Controller
 {
     public function __construct(private readonly ProductManager $products) {}
 
-    public function index(Request $request): View
+    /** Listing, filters and quick actions are handled live by App\Livewire\Admin\ProductTable. */
+    public function index(): View
     {
         Gate::authorize('viewAny', Product::class);
 
-        $filters = $request->validate([
-            'q' => ['nullable', 'string', 'max:100'],
-            'category' => ['nullable', 'integer'],
-            'status' => ['nullable', Rule::enum(ProductStatus::class)],
-            'stock' => ['nullable', Rule::in(['low', 'out'])],
-            'sort' => ['nullable', Rule::in(['newest', 'name', 'price', 'stock', 'sales'])],
-        ]);
-
-        $products = Product::query()
-            ->with(['primaryImage', 'category:id,name'])
-            ->withCount('variants')
-            ->when($filters['q'] ?? null, fn ($q, $term) => $q->where(fn ($w) => $w
-                ->whereLike('name', '%'.addcslashes($term, '%_\\').'%', caseSensitive: false)
-                ->orWhereLike('sku', '%'.addcslashes($term, '%_\\').'%', caseSensitive: false)))
-            ->when($filters['category'] ?? null, fn ($q, $id) => $q->where('category_id', $id))
-            ->when($filters['status'] ?? null, fn ($q, $status) => $q->where('status', $status))
-            ->when(($filters['stock'] ?? null) === 'low', fn ($q) => $q->lowStock()->where('stock', '>', 0))
-            ->when(($filters['stock'] ?? null) === 'out', fn ($q) => $q->where('stock', 0))
-            ->tap(fn ($q) => match ($filters['sort'] ?? 'newest') {
-                'name' => $q->orderBy('name'),
-                'price' => $q->orderByDesc('price'),
-                'stock' => $q->orderBy('stock'),
-                'sales' => $q->orderByDesc('sales_count'),
-                default => $q->latest('id'),
-            })
-            ->paginate(20)->withQueryString();
-
-        return view('admin.products.index', [
-            'products' => $products,
-            'filters' => $filters,
-            'categories' => Category::query()->ordered()->pluck('name', 'id'),
-        ]);
+        return view('admin.products.index');
     }
 
     public function create(): View

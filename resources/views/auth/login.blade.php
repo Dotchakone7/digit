@@ -5,7 +5,7 @@
 
 @section('form')
     <h1 class="text-2xl font-extrabold sm:text-3xl">Connexion</h1>
-    <p class="mt-2 text-sm text-zinc-500">Pas encore de compte ? <a href="{{ route('register') }}" class="link">Créer un compte</a></p>
+    <p class="mt-2 text-sm text-zinc-500">Pas encore de compte ? <a wire:navigate href="{{ route('register') }}" class="link">Créer un compte</a></p>
 
     <form method="POST" action="{{ route('login') }}" class="mt-8 space-y-5" novalidate>
         @csrf
@@ -13,7 +13,7 @@
         <div x-data="{ show: false }">
             <div class="mb-1.5 flex items-center justify-between">
                 <label for="password" class="label mb-0">Mot de passe</label>
-                <a href="{{ route('password.request') }}" class="text-xs font-medium text-brand-700 hover:underline">Mot de passe oublié ?</a>
+                <a wire:navigate href="{{ route('password.request') }}" class="text-xs font-medium text-brand-700 hover:underline">Mot de passe oublié ?</a>
             </div>
             <div class="relative">
                 <input id="password" name="password" :type="show ? 'text' : 'password'" required autocomplete="current-password" class="input pr-12 @error('password') input-error @enderror">

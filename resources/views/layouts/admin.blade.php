@@ -8,6 +8,8 @@
     <title>@yield('title', 'Tableau de bord') · Administration {{ config('shop.name') }}</title>
     <link rel="icon" href="{{ asset(config('shop.favicon')) }}">
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
+    @livewireStyles
+    @livewireScriptConfig
 </head>
 <body class="min-h-screen" x-data="{ sidebar: false }">
     @php
@@ -50,7 +52,7 @@
                     <div>
                         <p class="mb-1.5 px-3 text-[11px] font-semibold tracking-wider text-brand-400 uppercase">{{ $group }}</p>
                         @foreach ($visible as [$route, $label, $icon, $pattern, $ability, $badge])
-                            <a href="{{ route($route) }}" @class(['nav-admin-link', 'is-active' => request()->routeIs($pattern)]) @if (request()->routeIs($pattern)) aria-current="page" @endif>
+                            <a wire:navigate href="{{ route($route) }}" @class(['nav-admin-link', 'is-active' => request()->routeIs($pattern)]) @if (request()->routeIs($pattern)) aria-current="page" @endif>
                                 <x-icon :name="$icon" class="size-[18px]" /> <span class="flex-1">{{ $label }}</span>
                                 @if ($badge)<span class="rounded-full bg-accent-600 px-1.5 text-[11px] font-bold text-white">{{ $badge }}</span>@endif
                             </a>

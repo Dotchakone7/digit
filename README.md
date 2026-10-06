@@ -37,11 +37,11 @@ Boutique en ligne complète, pensée pour le marché ouest-africain (FCFA, Mobil
 |---|---|
 | Back-end | Laravel 13, PHP 8.3+ (8.4 recommandé en production) |
 | Base de données | PostgreSQL 16 recommandé — MySQL 8 / MariaDB 10.6+ pris en charge (hébergement mutualisé) — SQLite pour les tests |
-| Front-end | Blade, Tailwind CSS 4, Alpine.js 3 (+ plugins `collapse`, `focus`), Vite 8 |
+| Front-end | Blade, **Livewire 4** (catalogue, tableaux et fiches de l'administration en temps réel, navigation sans rechargement `wire:navigate`), Alpine.js (fourni par Livewire), Tailwind CSS 4, Vite 8 |
 | Polices | Inter et Plus Jakarta Sans auto-hébergées (Fontsource, aucun appel externe) |
 | Files d'attente | Laravel Queues (driver `database` par défaut) pour les notifications |
 
-Aucun paquet Composer ajouté au-delà du squelette Laravel ; côté npm, seulement Alpine.js et les polices.
+Un seul paquet Composer ajouté au squelette Laravel : `livewire/livewire`. Côté npm, seulement Tailwind et les polices (Alpine est inclus dans le bundle Livewire).
 
 ## Installation
 

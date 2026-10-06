@@ -20,6 +20,7 @@ app/
 ├── Enums/                Statuts (commande, paiement, avis, retour, expédition), rôles, types de coupon
 ├── Events/ Listeners/    OrderPlaced, PaymentConfirmed, OrderStatusChanged → notifications ; fusion du panier à la connexion
 ├── Exceptions/           BusinessException (message destiné à l'utilisateur, rendu en toast / JSON 422)
+├── Livewire/             Composants dynamiques : Shop/Catalog, Admin/{ProductTable, OrderTable, OrderManager, PaymentTable, ReviewModeration, UserTable, Dashboard}
 ├── Http/
 │   ├── Controllers/Shop      Vitrine, panier, checkout, paiements, webhooks
 │   ├── Controllers/Account   Espace client
@@ -41,6 +42,16 @@ app/
 │   ├── CouponService, ShippingService, ImageService, SettingsService, WishlistService
 └── Support/              Money, Media
 ```
+
+## Interface dynamique (Livewire)
+
+Les pages restent rendues par des contrôleurs classiques (SEO, autorisation de route) ; les zones interactives sont des composants Livewire qui appellent **les mêmes services** que les contrôleurs.
+
+- **Autorisation à chaque requête** : le trait `AuthorizesAbility` revérifie l'ability du composant (`orders.manage`, `catalog.manage`…) à l'affichage ET à chaque action ; les actions sensibles ajoutent `Gate::authorize()` (ex. confirmation de paiement = `payments.manage`). Les identifiants manipulés par l'interface sont relus en base et les valeurs d'énumération validées (`tryFrom`).
+- **État dans l'URL** : `#[Url]` sur les filtres (liens partageables, bouton retour), `#[Locked]` sur ce que le navigateur ne doit pas modifier.
+- **Temps réel sans WebSocket** : `wire:poll.<n>s.visible` (commandes 20 s, fiche commande 30 s, tableau de bord 60 s), uniquement quand l'onglet est visible ; un toast annonce les nouvelles commandes.
+- **Navigation** : `wire:navigate` sur les liens internes ; un seul bundle JS (`resources/js/livewire.js`) démarre Livewire et l'instance Alpine partagée (stores panier, toasts, confirmation).
+- Les routes POST historiques (statut, paiement, expédition) sont conservées pour les intégrations et les tests.
 
 ## Modèle de données (résumé)
 
@@ -156,7 +167,7 @@ et `PAYMENT_GATEWAYS=exemple,cash_on_delivery`. Écrire un test calqué sur `tes
 
 Form Requests partout, Eloquent/Query Builder (requêtes paramétrées, échappement des `LIKE`), protection CSRF (sauf webhooks, authentifiés par signature), échappement Blade et JSON-LD `JSON_HEX_TAG`, liste blanche `#[Fillable]` (rôle, statuts et `is_active` jamais assignables en masse), uploads validés (MIME réel, taille, dimensions) puis **ré-encodés en WebP par GD** (supprime EXIF et contenu caché, nom aléatoire), limitation de débit (connexion, panier, checkout, formulaires, recherche, webhooks), en-têtes de sécurité, réponses identiques pour éviter l'énumération de comptes, URL du livreur limitée à http(s), journaux sans données sensibles (numéro payeur masqué), secrets uniquement dans `.env`, `serializable_classes` de Laravel 13 respecté (aucun objet en cache).
 
-À envisager en production : une Content-Security-Policy (Alpine nécessite sa build CSP ou `unsafe-eval`), un WAF/CDN, la vérification d'e-mail obligatoire si souhaitée (`MustVerifyEmail`).
+À envisager en production : une Content-Security-Policy (Livewire/Alpine nécessitent `unsafe-eval`, ou la build CSP de Livewire), un WAF/CDN, la vérification d'e-mail obligatoire si souhaitée (`MustVerifyEmail`).
 
 ## Notifications
 

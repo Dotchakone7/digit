@@ -18,15 +18,10 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class OrderController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
-        $filters = $this->filters($request);
-
-        return view('admin.orders.index', [
-            'orders' => $this->query($filters)->withCount('items')->paginate(20)->withQueryString(),
-            'filters' => $filters,
-            'statusCounts' => Order::query()->selectRaw('status, COUNT(*) as total')->groupBy('status')->pluck('total', 'status'),
-        ]);
+        // Table rendered by the Livewire component App\Livewire\Admin\OrderTable.
+        return view('admin.orders.index');
     }
 
     public function show(Order $order, CourierManager $couriers): View

@@ -5,7 +5,7 @@
 @push('head')
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'WebSite',
     'name' => config('shop.name'),
     'url' => route('home'),
@@ -37,10 +37,10 @@
                     {{ setting('hero_subtitle', 'Une sélection exigeante, des prix justes et une livraison rapide partout dans votre ville. Payez en toute sécurité par Mobile Money ou à la livraison.') }}
                 </p>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                    <a href="{{ $heroProduct ? route('products.show', $heroProduct) : route('catalog.index') }}" class="btn btn-primary btn-lg">
+                    <a wire:navigate href="{{ $heroProduct ? route('products.show', $heroProduct) : route('catalog.index') }}" class="btn btn-primary btn-lg">
                         Acheter maintenant <x-icon name="arrow-right" class="size-4" />
                     </a>
-                    <a href="{{ route('catalog.index') }}" class="btn btn-secondary btn-lg">Découvrir le catalogue</a>
+                    <a wire:navigate href="{{ route('catalog.index') }}" class="btn btn-secondary btn-lg">Découvrir le catalogue</a>
                 </div>
                 <dl class="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-zinc-900/10 pt-6">
                     <div><dt class="text-xs text-zinc-500">Livraison</dt><dd class="mt-1 font-display text-lg font-bold text-brand-900">24–72 h</dd></div>
@@ -55,7 +55,7 @@
                     <x-product-image :src="$heroImage" :alt="$heroProduct?->name ?? config('shop.name')" loading="eager" fetchpriority="high" />
                 </div>
                 @if ($heroProduct)
-                    <a href="{{ route('products.show', $heroProduct) }}"
+                    <a wire:navigate href="{{ route('products.show', $heroProduct) }}"
                        class="absolute -bottom-5 left-4 flex max-w-[85%] items-center gap-3 rounded-2xl bg-white/95 p-3 pr-5 shadow-[var(--shadow-lift)] ring-1 ring-zinc-900/5 backdrop-blur transition hover:-translate-y-0.5 sm:left-auto sm:-right-4 lg:-left-8">
                         <span class="size-14 shrink-0 overflow-hidden rounded-xl bg-sand"><x-product-image :src="$heroProduct->image_url" alt="" /></span>
                         <span class="min-w-0">
@@ -94,7 +94,7 @@
             <x-section-heading eyebrow="Explorer" title="Nos catégories" :link="route('catalog.index')" link-label="Toute la boutique" />
             <div class="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3">
                 @foreach ($categories as $category)
-                    <a href="{{ route('catalog.category', $category) }}"
+                    <a wire:navigate href="{{ route('catalog.category', $category) }}"
                        @class(['group relative overflow-hidden rounded-[var(--radius-card)] bg-sand', 'aspect-[4/5] md:aspect-[4/3]' => true])>
                         <x-product-image :src="$category->image_url" :alt="$category->name" class="transition duration-700 ease-out group-hover:scale-105" />
                         <div class="absolute inset-0 bg-gradient-to-t from-brand-950/75 via-brand-950/10 to-transparent"></div>
@@ -136,7 +136,7 @@
                         </p>
                         <h2 class="mt-5 text-3xl font-extrabold text-white sm:text-4xl">Des prix doux, pour un temps limité.</h2>
                         <p class="mt-3 text-brand-200">Profitez de nos promotions avant qu’il ne soit trop tard. Quantités limitées.</p>
-                        <a href="{{ route('catalog.index', ['on_sale' => 1]) }}" class="btn btn-lg mt-8 bg-white text-brand-900 hover:bg-brand-50">Voir toutes les promotions <x-icon name="arrow-right" class="size-4" /></a>
+                        <a wire:navigate href="{{ route('catalog.index', ['on_sale' => 1]) }}" class="btn btn-lg mt-8 bg-white text-brand-900 hover:bg-brand-50">Voir toutes les promotions <x-icon name="arrow-right" class="size-4" /></a>
                     </div>
                     <div class="grid grid-cols-2 gap-3 sm:gap-4">
                         @foreach ($deals as $product)
@@ -179,7 +179,7 @@
                             <span class="grid size-10 place-items-center rounded-full bg-sand text-sm font-bold text-brand-800">{{ mb_substr($review->authorName(), 0, 1) }}</span>
                             <span>
                                 <span class="block text-sm font-semibold text-brand-900">{{ $review->authorName() }}</span>
-                                <a href="{{ route('products.show', $review->product) }}" class="text-xs text-zinc-500 hover:text-brand-900">a acheté {{ $review->product->name }}</a>
+                                <a wire:navigate href="{{ route('products.show', $review->product) }}" class="text-xs text-zinc-500 hover:text-brand-900">a acheté {{ $review->product->name }}</a>
                             </span>
                         </figcaption>
                     </figure>

@@ -30,6 +30,21 @@ class StorefrontTest extends TestCase
         $this->get('/page-inexistante')->assertNotFound()->assertSee('Page introuvable');
     }
 
+    public function test_structured_data_is_valid_json_ld(): void
+    {
+        $product = $this->product();
+
+        foreach ([route('home'), route('products.show', $product)] as $url) {
+            preg_match_all('#<script type="application/ld\+json">(.*?)</script>#s', $this->get($url)->getContent(), $blocks);
+
+            $this->assertNotEmpty($blocks[1], $url);
+            foreach ($blocks[1] as $json) {
+                $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+                $this->assertSame('https://schema.org', $data['@context'], $url); // Blade must not compile "@context" as a directive.
+            }
+        }
+    }
+
     public function test_search_is_accent_and_case_insensitive_and_suggests_typos(): void
     {
         $this->product(['name' => 'Crème au karité']);

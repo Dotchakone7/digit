@@ -11,7 +11,7 @@
         <template x-if="$store.cart.summary && $store.cart.summary.items.length === 0">
             <div class="mt-8 card">
                 <x-empty-state icon="bag" title="Votre panier est vide" text="Parcourez notre catalogue et ajoutez vos coups de cœur.">
-                    <a href="{{ route('catalog.index') }}" class="btn btn-primary btn-lg">Découvrir le catalogue <x-icon name="arrow-right" class="size-4" /></a>
+                    <a wire:navigate href="{{ route('catalog.index') }}" class="btn btn-primary btn-lg">Découvrir le catalogue <x-icon name="arrow-right" class="size-4" /></a>
                 </x-empty-state>
             </div>
         </template>
@@ -49,7 +49,7 @@
                     </template>
                 </ul>
                 <div class="flex items-center justify-between border-t border-zinc-100 bg-canvas px-6 py-4">
-                    <a href="{{ route('catalog.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-900 hover:underline"><x-icon name="arrow-left" class="size-4" /> Continuer mes achats</a>
+                    <a wire:navigate href="{{ route('catalog.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-900 hover:underline"><x-icon name="arrow-left" class="size-4" /> Continuer mes achats</a>
                 </div>
             </div>
 
@@ -92,7 +92,7 @@
                         </template>
                     </div>
 
-                    <a href="{{ route('checkout.show') }}" class="btn btn-primary btn-lg mt-5 w-full">Passer la commande <x-icon name="arrow-right" class="size-4" /></a>
+                    <a wire:navigate href="{{ route('checkout.show') }}" class="btn btn-primary btn-lg mt-5 w-full">Passer la commande <x-icon name="arrow-right" class="size-4" /></a>
                     <p class="mt-3 flex items-center justify-center gap-1.5 text-xs text-zinc-500"><x-icon name="lock" class="size-3.5" /> Paiement sécurisé · Mobile Money ou à la livraison</p>
                 </div>
                 @if ($shippingQuotes->firstWhere('method.free_over_amount'))

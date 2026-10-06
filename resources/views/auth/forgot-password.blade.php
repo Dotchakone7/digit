@@ -12,6 +12,6 @@
         @csrf
         <x-form.input name="email" type="email" label="Adresse e-mail" icon="mail" required autocomplete="email" autofocus />
         <button type="submit" class="btn btn-primary btn-lg w-full" data-loading="Envoi…">Envoyer le lien</button>
-        <a href="{{ route('login') }}" class="btn btn-ghost w-full"><x-icon name="arrow-left" class="size-4" /> Retour à la connexion</a>
+        <a wire:navigate href="{{ route('login') }}" class="btn btn-ghost w-full"><x-icon name="arrow-left" class="size-4" /> Retour à la connexion</a>
     </form>
 @endsection

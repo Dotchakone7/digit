@@ -20,7 +20,7 @@
                     <thead><tr><th>Commande</th><th>Date</th><th>Statut</th><th class="text-right">Total</th></tr></thead>
                     <tbody>
                         @forelse ($orders as $order)
-                            <tr><td><a href="{{ route('admin.orders.show', $order) }}" class="font-mono text-xs font-semibold text-brand-800 hover:underline">{{ $order->number }}</a></td><td>{{ $order->created_at->format('d/m/Y') }}</td><td><x-status-badge :status="$order->status" /></td><td class="text-right tabular-nums">{{ money($order->total) }}</td></tr>
+                            <tr><td><a wire:navigate href="{{ route('admin.orders.show', $order) }}" class="font-mono text-xs font-semibold text-brand-800 hover:underline">{{ $order->number }}</a></td><td>{{ $order->created_at->format('d/m/Y') }}</td><td><x-status-badge :status="$order->status" /></td><td class="text-right tabular-nums">{{ money($order->total) }}</td></tr>
                         @empty
                             <tr><td colspan="4" class="py-6 text-center text-zinc-500">Aucune commande.</td></tr>
                         @endforelse

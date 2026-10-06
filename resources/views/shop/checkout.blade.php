@@ -23,7 +23,7 @@
          }">
         <div class="flex flex-wrap items-center justify-between gap-4">
             <div>
-                <a href="{{ route('cart.index') }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 hover:text-brand-900"><x-icon name="arrow-left" class="size-4" /> Retour au panier</a>
+                <a wire:navigate href="{{ route('cart.index') }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 hover:text-brand-900"><x-icon name="arrow-left" class="size-4" /> Retour au panier</a>
                 <h1 class="mt-2 text-3xl font-extrabold sm:text-4xl">Finaliser ma commande</h1>
             </div>
             <ol class="hidden items-center gap-2 text-xs font-semibold text-zinc-400 md:flex" aria-label="Étapes">
@@ -155,7 +155,7 @@
                     <button type="submit" class="btn btn-primary btn-lg mt-6 w-full" data-loading="Validation en cours…" @disabled($shippingQuotes->isEmpty() || $gateways->isEmpty())>
                         <x-icon name="lock" class="size-4" /> Confirmer la commande
                     </button>
-                    <p class="mt-3 text-center text-xs leading-relaxed text-zinc-500">En confirmant, vous acceptez nos <a href="{{ route('pages.show', 'conditions-generales') }}" class="link" target="_blank">conditions générales de vente</a>. Le montant final est recalculé et vérifié par nos serveurs.</p>
+                    <p class="mt-3 text-center text-xs leading-relaxed text-zinc-500">En confirmant, vous acceptez nos <a wire:navigate href="{{ route('pages.show', 'conditions-generales') }}" class="link" target="_blank">conditions générales de vente</a>. Le montant final est recalculé et vérifié par nos serveurs.</p>
                 </div>
             </aside>
         </form>

@@ -1,6 +1,6 @@
 @props(['variant' => 'dark'])
 @php($logo = $variant === 'light' ? (config('shop.logo_dark') ?: config('shop.logo')) : config('shop.logo'))
-<a href="{{ route('home') }}" {{ $attributes->merge(['class' => 'inline-flex items-center gap-2.5 rounded-lg']) }} aria-label="{{ config('shop.name') }} — accueil">
+<a wire:navigate href="{{ route('home') }}" {{ $attributes->merge(['class' => 'inline-flex items-center gap-2.5 rounded-lg']) }} aria-label="{{ config('shop.name') }} — accueil">
     @if ($logo)
         <img src="{{ asset($logo) }}" alt="{{ config('shop.name') }}" class="h-9 w-auto">
     @else

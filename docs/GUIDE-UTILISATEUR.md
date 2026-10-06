@@ -61,6 +61,8 @@ C'est votre page d'accueil. Elle résume l'activité de la boutique en un coup d
 | **Stock faible** | Les produits presque épuisés, à réapprovisionner |
 | **Dernières activités** | Les derniers changements de statut des commandes, et qui les a faits |
 
+Le tableau de bord **se met à jour tout seul** chaque minute tant que l'onglet est ouvert : inutile de recharger la page. À l'arrivée d'une nouvelle commande, une notification apparaît en haut à droite.
+
 En haut de la page, des **pastilles de rappel** signalent ce qui attend une action de votre part : paiements à vérifier, avis à modérer, retours en cours.
 
 Le **menu de gauche** donne accès à toutes les rubriques. Sur téléphone, il s'ouvre avec le bouton ☰ en haut à gauche. La **barre de recherche** en haut permet de retrouver une commande par son numéro, le nom ou le téléphone du client.
@@ -153,7 +155,7 @@ Un tableau affiché sur la fiche produit (ex. « Matière : coton », « Garanti
 
 ### Bloc « Images »
 
-1. Cliquez sur la zone **Ajouter des images** et choisissez une ou plusieurs photos (JPG, PNG ou WebP, 4 Mo maximum chacune).
+1. Cliquez sur la zone **Ajouter des images** et choisissez une ou plusieurs photos (JPG, PNG ou WebP, 4 Mo maximum chacune), ou faites-les glisser depuis votre ordinateur. Un **aperçu** s'affiche aussitôt ; la croix ✕ retire une photo choisie par erreur, et une photo trop lourde est encadrée en rouge.
 2. Les photos sont **automatiquement optimisées** pour que le site reste rapide.
 3. La première image devient l'**image principale**, celle affichée dans le catalogue. Pour en changer, survolez une autre image et cliquez sur l'étoile ★. Pour supprimer une image, cliquez sur la corbeille.
 
@@ -173,8 +175,12 @@ Cliquez enfin sur **Créer le produit** (ou **Enregistrer les modifications**). 
 
 ![Liste des produits](images/guide/05-produits.jpg)
 
-- **Rechercher :** tapez un nom ou une référence dans la barre de recherche, puis cliquez sur **Filtrer**.
-- **Filtrer :** par catégorie, statut (publié, brouillon, désactivé) ou stock (« Stock faible », « Épuisé »).
+- **Rechercher :** tapez un nom ou une référence ; la liste se met à jour **pendant la frappe**, sans bouton à cliquer.
+- **Filtrer :** par catégorie, statut (publié, brouillon, désactivé) ou stock (« Stock faible », « Épuisé »). Le résultat s'affiche immédiatement.
+- **Trier :** cliquez sur le titre d'une colonne (Produit, Prix, Stock, Ventes) ; un second clic inverse l'ordre.
+- **Corriger le stock sans ouvrir le produit :** cliquez dans la case du stock, tapez la nouvelle quantité puis **Entrée**. (Pour un produit à variantes, le stock se modifie dans la fiche produit.)
+- **Publier / dépublier d'un clic :** cliquez sur le badge de statut (« Publié », « Brouillon »).
+- **Actions groupées :** cochez plusieurs produits ; une barre apparaît pour les publier, les dépublier ou les désactiver ensemble.
 - **Le stock** s'affiche en **orange** quand il est faible et en **rouge** à 0.
 
 Sur chaque ligne :
@@ -204,7 +210,9 @@ Sur chaque ligne :
 
 ![Liste des commandes](images/guide/07-commandes.jpg)
 
-Les onglets en haut filtrent par statut. Vous pouvez aussi rechercher par numéro, nom, e-mail ou téléphone, filtrer par paiement ou par dates, et **exporter la liste en Excel (CSV)**.
+Les onglets en haut filtrent par statut. Vous pouvez aussi rechercher par numéro, nom, e-mail ou téléphone, filtrer par paiement ou par dates, et **exporter la liste en Excel (CSV)**. Tout s'applique instantanément.
+
+La liste **se rafraîchit toute seule** toutes les 20 secondes : une nouvelle commande y apparaît avec le badge **Nouveau**, accompagnée d'une notification.
 
 ### Le parcours d'une commande
 
@@ -231,7 +239,8 @@ Cliquez sur une commande dans la liste :
 
 ![Détail d'une commande](images/guide/08-commande-detail.jpg)
 
-Vous y trouvez :
+Vous y trouvez les éléments ci-dessous. Chaque action (changement de statut, confirmation d'un paiement, expédition) s'applique **sans recharger la page** : le statut, le suivi et l'historique se mettent à jour aussitôt, et un message de confirmation apparaît en haut à droite.
+
 
 - **Faire avancer la commande** : les boutons proposent uniquement les étapes possibles. Le commentaire facultatif est visible par le client dans l'e-mail et l'historique.
 - **Produits commandés** : avec les prix **au moment de l'achat**, la référence (SKU) et l'option choisie (taille…).
@@ -277,7 +286,7 @@ Quand un client paie par **Mobile Money (transfert)**, il envoie l'argent sur vo
 
 1. Ouvrez votre application ou votre relevé Mobile Money (Orange Money, MTN, Moov, Wave…).
 2. Retrouvez la transaction grâce à la **référence**, au **montant** et aux derniers chiffres du numéro payeur.
-3. Si l'argent est bien reçu, cliquez sur **Confirmer**. La commande passe automatiquement en **Confirmée** et le client reçoit un e-mail.
+3. Si l'argent est bien reçu, cliquez sur **Confirmer**, puis validez dans la fenêtre de confirmation. La commande passe automatiquement en **Confirmée** et le client reçoit un e-mail.
 4. Si vous ne trouvez pas la transaction, ou si le montant est faux, cliquez sur **Rejeter**. Le client pourra payer à nouveau.
 
 > **Règle de sécurité :** ne confirmez **jamais** un paiement sur la seule foi d'une capture d'écran envoyée par le client. Vérifiez toujours sur votre propre relevé.
@@ -318,7 +327,9 @@ Seuls les clients qui ont **réellement reçu** un produit peuvent le noter. Cha
 
 - **Publier** : l'avis apparaît sur la fiche produit et la note moyenne est recalculée.
 - **Refuser** : l'avis n'est pas publié (propos injurieux, hors sujet…).
-- **Corbeille** : suppression définitive.
+- **Corbeille** : suppression définitive (après confirmation).
+
+L'avis traité disparaît aussitôt de la liste, sans rechargement ; les onglets en haut indiquent combien il en reste.
 
 > Conseil : publiez aussi les avis mitigés mais honnêtes. Ils rendent la boutique plus crédible, et les meilleurs avis apparaissent sur la page d'accueil.
 

@@ -9,6 +9,8 @@
     @include('partials.seo')
     <link rel="icon" href="{{ asset(config('shop.favicon')) }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+    @livewireScriptConfig
     @stack('head')
 </head>
 <body @class(["flex min-h-screen flex-col", "pb-20 lg:pb-0" => View::hasSection("sticky_bar")])>

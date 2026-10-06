@@ -13,7 +13,7 @@
             ['Favoris', $stats['wishlist'], 'heart', route('account.wishlist')],
             ['Total dépensé', money($stats['spent']), 'wallet', null],
         ] as [$label, $value, $icon, $url])
-            <a @if ($url) href="{{ $url }}" @endif class="card card-body block transition hover:shadow-[var(--shadow-lift)]">
+            <a wire:navigate @if ($url) href="{{ $url }}" @endif class="card card-body block transition hover:shadow-[var(--shadow-lift)]">
                 <span class="grid size-10 place-items-center rounded-xl bg-sand text-brand-800"><x-icon :name="$icon" class="size-[18px]" /></span>
                 <p class="mt-4 text-xs font-medium text-zinc-500">{{ $label }}</p>
                 <p class="mt-0.5 font-display text-xl font-bold text-brand-900 tabular-nums">{{ $value }}</p>
@@ -25,10 +25,10 @@
         <section class="card">
             <div class="flex items-center justify-between border-b border-zinc-100 px-5 py-4 sm:px-6">
                 <h2 class="font-sans text-base font-semibold">Commandes récentes</h2>
-                <a href="{{ route('account.orders.index') }}" class="text-sm font-semibold text-brand-900 hover:underline">Tout voir</a>
+                <a wire:navigate href="{{ route('account.orders.index') }}" class="text-sm font-semibold text-brand-900 hover:underline">Tout voir</a>
             </div>
             @forelse ($recentOrders as $order)
-                <a href="{{ route('account.orders.show', $order) }}" class="flex items-center justify-between gap-4 border-b border-zinc-50 px-5 py-4 transition last:border-0 hover:bg-canvas sm:px-6">
+                <a wire:navigate href="{{ route('account.orders.show', $order) }}" class="flex items-center justify-between gap-4 border-b border-zinc-50 px-5 py-4 transition last:border-0 hover:bg-canvas sm:px-6">
                     <div>
                         <p class="font-mono text-sm font-semibold text-brand-900">{{ $order->number }}</p>
                         <p class="text-xs text-zinc-500">{{ $order->created_at->translatedFormat('d M Y') }} · {{ $order->items_count }} article(s)</p>
@@ -41,7 +41,7 @@
                 </a>
             @empty
                 <x-empty-state icon="box" title="Aucune commande pour le moment" text="Vos commandes apparaîtront ici.">
-                    <a href="{{ route('catalog.index') }}" class="btn btn-primary">Commencer mes achats</a>
+                    <a wire:navigate href="{{ route('catalog.index') }}" class="btn btn-primary">Commencer mes achats</a>
                 </x-empty-state>
             @endforelse
         </section>
@@ -51,7 +51,7 @@
             <ul class="mt-4 space-y-4">
                 @forelse ($notifications as $notification)
                     <li>
-                        <a href="{{ $notification->data['url'] ?? '#' }}" class="block rounded-xl p-2 -m-2 transition hover:bg-canvas">
+                        <a wire:navigate href="{{ $notification->data['url'] ?? '#' }}" class="block rounded-xl p-2 -m-2 transition hover:bg-canvas">
                             <p class="text-sm font-medium text-brand-900">{{ $notification->data['title'] ?? 'Notification' }}</p>
                             <p class="text-xs text-zinc-500">{{ $notification->created_at->diffForHumans() }}</p>
                         </a>

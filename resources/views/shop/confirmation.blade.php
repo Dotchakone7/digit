@@ -26,7 +26,7 @@
                         @elseif ($order->payment_status === \App\Enums\PaymentStatus::Processing)
                             Votre paiement Mobile Money est en cours de vérification. Vous serez notifié(e) dès sa confirmation.
                         @else
-                            Paiement en attente : {{ $order->payment_status->label() }}. <a href="{{ route('payments.show', $order) }}" class="font-semibold underline">Finaliser le paiement</a>
+                            Paiement en attente : {{ $order->payment_status->label() }}. <a wire:navigate href="{{ route('payments.show', $order) }}" class="font-semibold underline">Finaliser le paiement</a>
                         @endif
                     </p>
                 </div>
@@ -51,8 +51,8 @@
                     <p class="mt-1 text-zinc-600">{{ $order->shipping_address['full_name'] ?? '' }} · {{ $order->shipping_address['phone'] ?? '' }}<br>{{ $order->shippingAddressLine() }}</p>
                 </div>
                 <div class="flex flex-col gap-2 sm:flex-row">
-                    <a href="{{ route('account.orders.show', $order) }}" class="btn btn-primary flex-1">Suivre ma commande</a>
-                    <a href="{{ route('catalog.index') }}" class="btn btn-secondary flex-1">Continuer mes achats</a>
+                    <a wire:navigate href="{{ route('account.orders.show', $order) }}" class="btn btn-primary flex-1">Suivre ma commande</a>
+                    <a wire:navigate href="{{ route('catalog.index') }}" class="btn btn-secondary flex-1">Continuer mes achats</a>
                 </div>
             </div>
         </div>

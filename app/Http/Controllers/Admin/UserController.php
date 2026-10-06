@@ -15,29 +15,12 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
         Gate::authorize('viewAny', User::class);
 
-        $filters = $request->validate([
-            'q' => ['nullable', 'string', 'max:100'],
-            'role' => ['nullable', Rule::enum(RoleSlug::class)],
-            'active' => ['nullable', Rule::in(['1', '0'])],
-        ]);
-
-        return view('admin.users.index', [
-            'users' => User::query()->with('role')
-                ->withCount('orders')
-                ->withSum(['orders as revenue' => fn ($q) => $q->revenue()], 'total')
-                ->when($filters['q'] ?? null, fn ($q, $t) => $q->where(fn ($w) => $w
-                    ->whereLike('name', '%'.addcslashes($t, '%_\\').'%', caseSensitive: false)
-                    ->orWhereLike('email', '%'.addcslashes($t, '%_\\').'%', caseSensitive: false)
-                    ->orWhereLike('phone', '%'.addcslashes($t, '%_\\').'%', caseSensitive: false)))
-                ->when($filters['role'] ?? null, fn ($q, $r) => $q->whereHas('role', fn ($w) => $w->where('slug', $r)))
-                ->when(isset($filters['active']), fn ($q) => $q->where('is_active', $filters['active'] === '1'))
-                ->latest('id')->paginate(20)->withQueryString(),
-            'filters' => $filters,
-        ]);
+        // Table rendered by the Livewire component App\Livewire\Admin\UserTable.
+        return view('admin.users.index');
     }
 
     public function show(User $user): View

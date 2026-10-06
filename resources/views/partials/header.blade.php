@@ -13,7 +13,7 @@
         <x-logo class="shrink-0" />
 
         <nav class="hidden items-center gap-1 lg:flex" aria-label="Navigation principale">
-            <a href="{{ route('catalog.index') }}" class="rounded-full px-3.5 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-brand-900">Boutique</a>
+            <a wire:navigate href="{{ route('catalog.index') }}" class="rounded-full px-3.5 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-brand-900">Boutique</a>
             @if ($navCategories->isNotEmpty())
                 <div x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false" @keydown.escape="open = false">
                     <button type="button" class="flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-brand-900"
@@ -23,7 +23,7 @@
                     <div x-show="open" x-cloak x-transition.opacity.duration.150ms class="absolute top-full left-0 w-[520px] pt-2">
                         <div class="grid grid-cols-2 gap-1 rounded-2xl bg-white p-3 shadow-[var(--shadow-lift)] ring-1 ring-zinc-900/5">
                             @foreach ($navCategories as $category)
-                                <a href="{{ route('catalog.category', $category['slug']) }}" class="group flex items-center gap-3 rounded-xl p-2.5 transition hover:bg-zinc-50">
+                                <a wire:navigate href="{{ route('catalog.category', $category['slug']) }}" class="group flex items-center gap-3 rounded-xl p-2.5 transition hover:bg-zinc-50">
                                     <span class="size-11 shrink-0 overflow-hidden rounded-lg bg-sand">
                                         <x-product-image :src="$category['image_url']" :alt="''" />
                                     </span>
@@ -39,8 +39,8 @@
                     </div>
                 </div>
             @endif
-            <a href="{{ route('catalog.index', ['on_sale' => 1]) }}" class="rounded-full px-3.5 py-2 text-sm font-medium text-accent-700 transition hover:bg-accent-50">Promotions</a>
-            <a href="{{ route('catalog.index', ['sort' => 'newest']) }}" class="rounded-full px-3.5 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-brand-900">Nouveautés</a>
+            <a wire:navigate href="{{ route('catalog.index', ['on_sale' => 1]) }}" class="rounded-full px-3.5 py-2 text-sm font-medium text-accent-700 transition hover:bg-accent-50">Promotions</a>
+            <a wire:navigate href="{{ route('catalog.index', ['sort' => 'newest']) }}" class="rounded-full px-3.5 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-brand-900">Nouveautés</a>
         </nav>
 
         <div class="hidden flex-1 md:block">
@@ -53,7 +53,7 @@
             </button>
 
             @auth
-                <a href="{{ route('account.wishlist') }}" class="btn-icon hidden sm:inline-flex" aria-label="Mes favoris"><x-icon name="heart" /></a>
+                <a wire:navigate href="{{ route('account.wishlist') }}" class="btn-icon hidden sm:inline-flex" aria-label="Mes favoris"><x-icon name="heart" /></a>
                 <div x-data="{ open: false }" class="relative" @click.outside="open = false" @keydown.escape="open = false">
                     <button type="button" class="btn-icon" @click="open = !open" :aria-expanded="open.toString()" aria-haspopup="true" aria-label="Mon compte">
                         <span class="grid size-8 place-items-center rounded-full bg-brand-900 text-xs font-bold text-white">{{ auth()->user()->initials() }}</span>
@@ -67,9 +67,9 @@
                         @can('admin.access')
                             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-medium text-accent-700 hover:bg-accent-50"><x-icon name="chart" class="size-4" /> Administration</a>
                         @endcan
-                        <a href="{{ route('account.dashboard') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"><x-icon name="home" class="size-4" /> Tableau de bord</a>
-                        <a href="{{ route('account.orders.index') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"><x-icon name="box" class="size-4" /> Mes commandes</a>
-                        <a href="{{ route('account.profile.edit') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"><x-icon name="user" class="size-4" /> Mon profil</a>
+                        <a wire:navigate href="{{ route('account.dashboard') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"><x-icon name="home" class="size-4" /> Tableau de bord</a>
+                        <a wire:navigate href="{{ route('account.orders.index') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"><x-icon name="box" class="size-4" /> Mes commandes</a>
+                        <a wire:navigate href="{{ route('account.profile.edit') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"><x-icon name="user" class="size-4" /> Mon profil</a>
                         <div class="my-1 divider"></div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -78,8 +78,8 @@
                     </div>
                 </div>
             @else
-                <a href="{{ route('login') }}" class="btn-icon sm:hidden" aria-label="Se connecter"><x-icon name="user" /></a>
-                <a href="{{ route('login') }}" class="btn btn-ghost hidden sm:inline-flex">Connexion</a>
+                <a wire:navigate href="{{ route('login') }}" class="btn-icon sm:hidden" aria-label="Se connecter"><x-icon name="user" /></a>
+                <a wire:navigate href="{{ route('login') }}" class="btn btn-ghost hidden sm:inline-flex">Connexion</a>
             @endauth
 
             <button type="button" class="btn-icon relative" @click="$store.cart.show()" aria-label="Ouvrir le panier">
@@ -106,14 +106,14 @@
                 <button type="button" class="btn-icon" @click="mobileMenu = false" aria-label="Fermer le menu"><x-icon name="x" /></button>
             </div>
             <div class="flex-1 overflow-y-auto p-4">
-                <a href="{{ route('catalog.index') }}" class="flex items-center justify-between rounded-xl px-3 py-3 text-base font-semibold text-brand-900 hover:bg-zinc-50">Toute la boutique <x-icon name="arrow-right" class="size-4" /></a>
-                <a href="{{ route('catalog.index', ['on_sale' => 1]) }}" class="flex items-center justify-between rounded-xl px-3 py-3 text-base font-semibold text-accent-700 hover:bg-accent-50">Promotions <x-icon name="percent" class="size-4" /></a>
-                <a href="{{ route('catalog.index', ['sort' => 'newest']) }}" class="flex items-center justify-between rounded-xl px-3 py-3 text-base font-semibold text-brand-900 hover:bg-zinc-50">Nouveautés <x-icon name="sparkles" class="size-4" /></a>
+                <a wire:navigate href="{{ route('catalog.index') }}" class="flex items-center justify-between rounded-xl px-3 py-3 text-base font-semibold text-brand-900 hover:bg-zinc-50">Toute la boutique <x-icon name="arrow-right" class="size-4" /></a>
+                <a wire:navigate href="{{ route('catalog.index', ['on_sale' => 1]) }}" class="flex items-center justify-between rounded-xl px-3 py-3 text-base font-semibold text-accent-700 hover:bg-accent-50">Promotions <x-icon name="percent" class="size-4" /></a>
+                <a wire:navigate href="{{ route('catalog.index', ['sort' => 'newest']) }}" class="flex items-center justify-between rounded-xl px-3 py-3 text-base font-semibold text-brand-900 hover:bg-zinc-50">Nouveautés <x-icon name="sparkles" class="size-4" /></a>
                 <p class="mt-5 mb-2 px-3 text-xs font-bold tracking-widest text-zinc-500 uppercase">Catégories</p>
                 @foreach ($navCategories as $category)
                     <div x-data="{ open: false }">
                         <div class="flex items-center">
-                            <a href="{{ route('catalog.category', $category['slug']) }}" class="flex flex-1 items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium text-zinc-800 hover:bg-zinc-50">
+                            <a wire:navigate href="{{ route('catalog.category', $category['slug']) }}" class="flex flex-1 items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium text-zinc-800 hover:bg-zinc-50">
                                 <span class="size-9 overflow-hidden rounded-lg bg-sand"><x-product-image :src="$category['image_url']" alt="" /></span>
                                 {{ $category['name'] }}
                             </a>
@@ -126,7 +126,7 @@
                         @if (! empty($category['children']))
                             <div x-show="open" x-collapse x-cloak class="ml-12 border-l border-zinc-100 pl-3">
                                 @foreach ($category['children'] as $child)
-                                    <a href="{{ route('catalog.category', $child['slug']) }}" class="block rounded-lg px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-50">{{ $child['name'] }}</a>
+                                    <a wire:navigate href="{{ route('catalog.category', $child['slug']) }}" class="block rounded-lg px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-50">{{ $child['name'] }}</a>
                                 @endforeach
                             </div>
                         @endif
@@ -135,11 +135,11 @@
             </div>
             <div class="border-t border-zinc-100 p-4">
                 @auth
-                    <a href="{{ route('account.dashboard') }}" class="btn btn-secondary w-full">Mon compte</a>
+                    <a wire:navigate href="{{ route('account.dashboard') }}" class="btn btn-secondary w-full">Mon compte</a>
                 @else
                     <div class="grid grid-cols-2 gap-2">
-                        <a href="{{ route('login') }}" class="btn btn-secondary">Connexion</a>
-                        <a href="{{ route('register') }}" class="btn btn-primary">Inscription</a>
+                        <a wire:navigate href="{{ route('login') }}" class="btn btn-secondary">Connexion</a>
+                        <a wire:navigate href="{{ route('register') }}" class="btn btn-primary">Inscription</a>
                     </div>
                 @endauth
             </div>

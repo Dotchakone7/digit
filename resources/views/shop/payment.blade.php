@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="container-shop max-w-3xl py-10 lg:py-14">
-        <a href="{{ route('account.orders.show', $order) }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 hover:text-brand-900"><x-icon name="arrow-left" class="size-4" /> Ma commande</a>
+        <a wire:navigate href="{{ route('account.orders.show', $order) }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 hover:text-brand-900"><x-icon name="arrow-left" class="size-4" /> Ma commande</a>
         <h1 class="mt-2 text-3xl font-extrabold">Paiement de votre commande</h1>
         <p class="mt-2 text-zinc-600">Commande <span class="font-mono font-semibold text-brand-900">{{ $order->number }}</span> · Montant à payer : <strong class="text-brand-900">{{ money($order->total) }}</strong></p>
 

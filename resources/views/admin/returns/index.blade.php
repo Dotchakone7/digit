@@ -5,9 +5,9 @@
 @section('content')
     <x-admin.page-header title="Retours & remboursements" subtitle="Demandé → Accepté → Produit reçu → Remboursé (ou Refusé)." />
     <nav class="mb-4 flex flex-wrap gap-1">
-        <a href="{{ route('admin.returns.index') }}" @class(['rounded-lg px-3 py-1.5 text-sm font-medium', 'bg-brand-900 text-white' => ! $status, 'text-zinc-600 hover:bg-white' => $status])>Tous</a>
+        <a wire:navigate href="{{ route('admin.returns.index') }}" @class(['rounded-lg px-3 py-1.5 text-sm font-medium', 'bg-brand-900 text-white' => ! $status, 'text-zinc-600 hover:bg-white' => $status])>Tous</a>
         @foreach (\App\Enums\ReturnStatus::cases() as $s)
-            <a href="{{ route('admin.returns.index', ['status' => $s->value]) }}" @class(['rounded-lg px-3 py-1.5 text-sm font-medium', 'bg-brand-900 text-white' => $status === $s->value, 'text-zinc-600 hover:bg-white' => $status !== $s->value])>{{ $s->label() }}</a>
+            <a wire:navigate href="{{ route('admin.returns.index', ['status' => $s->value]) }}" @class(['rounded-lg px-3 py-1.5 text-sm font-medium', 'bg-brand-900 text-white' => $status === $s->value, 'text-zinc-600 hover:bg-white' => $status !== $s->value])>{{ $s->label() }}</a>
         @endforeach
     </nav>
     <div class="space-y-3">
@@ -15,7 +15,7 @@
             <article class="card p-5">
                 <div class="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                        <p class="text-sm font-semibold text-zinc-900">{{ $return->reasonLabel() }} · <a href="{{ route('admin.orders.show', $return->order->number) }}" class="font-mono text-brand-700 hover:underline">{{ $return->order->number }}</a></p>
+                        <p class="text-sm font-semibold text-zinc-900">{{ $return->reasonLabel() }} · <a wire:navigate href="{{ route('admin.orders.show', $return->order->number) }}" class="font-mono text-brand-700 hover:underline">{{ $return->order->number }}</a></p>
                         <p class="text-xs text-zinc-500">{{ $return->user?->name ?? $return->order->customer_name }} · {{ $return->created_at->format('d/m/Y H:i') }} · commande de {{ money($return->order->total) }}</p>
                     </div>
                     <x-status-badge :status="$return->status" />

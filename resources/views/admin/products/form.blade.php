@@ -133,14 +133,26 @@
                         @endforeach
                     </div>
                 @endif
-                <label class="mt-4 flex cursor-pointer flex-col items-center gap-2 rounded-xl border-2 border-dashed border-zinc-200 p-6 text-center transition hover:border-brand-400 hover:bg-zinc-50"
-                       x-data="{ files: [] }">
-                    <x-icon name="upload" class="size-6 text-zinc-400" />
-                    <span class="text-sm font-medium text-zinc-700">Ajouter des images</span>
-                    <span class="text-xs text-zinc-500">JPG, PNG ou WebP · {{ (int) (config('shop.uploads.max_kb') / 1024) }} Mo max · optimisées automatiquement</span>
-                    <input type="file" name="images[]" multiple accept="image/jpeg,image/png,image/webp" class="sr-only" @change="files = [...$event.target.files].map(f => f.name)">
-                    <template x-if="files.length"><span class="text-xs font-semibold text-brand-700" x-text="files.length + ' fichier(s) sélectionné(s)'"></span></template>
-                </label>
+                {{-- Instant preview of the selected files (nothing is uploaded until the form is saved). --}}
+                <div x-data="imagePicker({{ (int) config('shop.uploads.max_kb') * 1024 }})">
+                    <label class="mt-4 flex cursor-pointer flex-col items-center gap-2 rounded-xl border-2 border-dashed p-6 text-center transition hover:border-brand-400 hover:bg-zinc-50"
+                           x-bind:class="dragging ? 'border-brand-500 bg-brand-50' : 'border-zinc-200'"
+                           x-on:dragover.prevent="dragging = true" x-on:dragleave.prevent="dragging = false" x-on:drop.prevent="drop($event)">
+                        <x-icon name="upload" class="size-6 text-zinc-400" />
+                        <span class="text-sm font-medium text-zinc-700">Ajouter des images <span class="font-normal text-zinc-500">ou glissez-les ici</span></span>
+                        <span class="text-xs text-zinc-500">JPG, PNG ou WebP · {{ (int) (config('shop.uploads.max_kb') / 1024) }} Mo max · optimisées automatiquement</span>
+                        <input type="file" name="images[]" multiple accept="image/jpeg,image/png,image/webp" class="sr-only" x-ref="input" x-on:change="sync()">
+                    </label>
+                    <div x-show="previews.length" x-cloak class="mt-3 grid grid-cols-3 gap-2">
+                        <template x-for="(preview, index) in previews" :key="preview.url">
+                            <div class="animate-fade-up group relative aspect-square overflow-hidden rounded-lg bg-zinc-100 ring-2" x-bind:class="preview.tooBig ? 'ring-danger-500' : 'ring-accent-300'">
+                                <img x-bind:src="preview.url" x-bind:alt="preview.name" class="size-full object-cover">
+                                <span class="absolute bottom-1 left-1 rounded px-1.5 text-[10px] font-semibold text-white" x-bind:class="preview.tooBig ? 'bg-danger-600' : 'bg-accent-600'" x-text="preview.tooBig ? 'Trop lourde' : 'Nouvelle'"></span>
+                                <button type="button" class="absolute top-1 right-1 grid size-7 place-items-center rounded-full bg-white/90 text-zinc-700 shadow-sm hover:text-danger-600" x-on:click="remove(index)" aria-label="Retirer cette image"><x-icon name="x" class="size-4" /></button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
                 @foreach ($errors->get('images.*') as $messages)@foreach ($messages as $m)<p class="field-error">{{ $m }}</p>@endforeach @endforeach
                 @error('images')<p class="field-error">{{ $message }}</p>@enderror
             </section>

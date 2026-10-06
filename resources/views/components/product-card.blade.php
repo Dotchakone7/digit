@@ -8,7 +8,7 @@
     'flex-col' => $layout === 'grid',
     'flex-row' => $layout === 'list',
 ])>
-    <a href="{{ $url }}" @class(['relative block overflow-hidden bg-sand', 'aspect-square' => $layout === 'grid', 'w-36 shrink-0 sm:w-56' => $layout === 'list'])
+    <a wire:navigate href="{{ $url }}" @class(['relative block overflow-hidden bg-sand', 'aspect-square' => $layout === 'grid', 'w-36 shrink-0 sm:w-56' => $layout === 'list'])
        aria-label="{{ $product->name }}" tabindex="-1">
         <x-product-image :src="$product->image_url" :alt="$product->name" class="transition duration-500 ease-out group-hover:scale-[1.04]" />
         <div class="absolute top-3 left-3 flex flex-col items-start gap-1.5">
@@ -36,7 +36,7 @@
             <p class="text-xs font-medium tracking-wide text-zinc-500 uppercase">{{ $product->category->name }}</p>
         @endif
         <h3 class="line-clamp-2 font-sans text-[15px] leading-snug font-semibold text-brand-900">
-            <a href="{{ $url }}" class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">{{ $product->name }}</a>
+            <a wire:navigate href="{{ $url }}" class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">{{ $product->name }}</a>
         </h3>
         @if ($layout === 'list' && $product->short_description)
             <p class="line-clamp-2 hidden text-sm text-zinc-500 sm:block">{{ $product->short_description }}</p>
@@ -55,7 +55,7 @@
             </div>
             @if ($product->isInStock())
                 @if ($product->hasVariants())
-                    <a href="{{ $url }}" class="relative z-10 btn-icon bg-zinc-100 hover:bg-brand-900 hover:text-white" aria-label="Choisir les options de {{ $product->name }}">
+                    <a wire:navigate href="{{ $url }}" class="relative z-10 btn-icon bg-zinc-100 hover:bg-brand-900 hover:text-white" aria-label="Choisir les options de {{ $product->name }}">
                         <x-icon name="arrow-right" class="size-[18px]" />
                     </a>
                 @else

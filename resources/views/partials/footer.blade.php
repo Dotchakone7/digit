@@ -23,11 +23,11 @@
                 <div>
                     <h2 class="font-sans text-sm font-semibold text-white">Boutique</h2>
                     <ul class="mt-4 space-y-2.5 text-sm">
-                        <li><a href="{{ route('catalog.index') }}" class="transition hover:text-white">Tous les produits</a></li>
-                        <li><a href="{{ route('catalog.index', ['sort' => 'newest']) }}" class="transition hover:text-white">Nouveautés</a></li>
-                        <li><a href="{{ route('catalog.index', ['on_sale' => 1]) }}" class="transition hover:text-white">Promotions</a></li>
+                        <li><a wire:navigate href="{{ route('catalog.index') }}" class="transition hover:text-white">Tous les produits</a></li>
+                        <li><a wire:navigate href="{{ route('catalog.index', ['sort' => 'newest']) }}" class="transition hover:text-white">Nouveautés</a></li>
+                        <li><a wire:navigate href="{{ route('catalog.index', ['on_sale' => 1]) }}" class="transition hover:text-white">Promotions</a></li>
                         @foreach ($navCategories->take(4) as $category)
-                            <li><a href="{{ route('catalog.category', $category['slug']) }}" class="transition hover:text-white">{{ $category['name'] }}</a></li>
+                            <li><a wire:navigate href="{{ route('catalog.category', $category['slug']) }}" class="transition hover:text-white">{{ $category['name'] }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -35,15 +35,15 @@
                     <h2 class="font-sans text-sm font-semibold text-white">Aide & informations</h2>
                     <ul class="mt-4 space-y-2.5 text-sm">
                         @foreach (\App\Http\Controllers\Shop\PageController::PAGES as $slug => $page)
-                            <li><a href="{{ route('pages.show', $slug) }}" class="transition hover:text-white">{{ $page['title'] }}</a></li>
+                            <li><a wire:navigate href="{{ route('pages.show', $slug) }}" class="transition hover:text-white">{{ $page['title'] }}</a></li>
                         @endforeach
-                        <li><a href="{{ route('contact') }}" class="transition hover:text-white">Nous contacter</a></li>
+                        <li><a wire:navigate href="{{ route('contact') }}" class="transition hover:text-white">Nous contacter</a></li>
                     </ul>
                 </div>
                 <div class="col-span-2 sm:col-span-1">
                     <h2 class="font-sans text-sm font-semibold text-white">Contact</h2>
                     @unless (setting('contact_phone') || setting('contact_whatsapp') || setting('contact_email') || setting('contact_address'))
-                        <p class="mt-4 text-sm"><a href="{{ route('contact') }}" class="transition hover:text-white">Nous écrire</a></p>
+                        <p class="mt-4 text-sm"><a wire:navigate href="{{ route('contact') }}" class="transition hover:text-white">Nous écrire</a></p>
                     @endunless
                     <ul class="mt-4 space-y-3 text-sm">
                         @if ($phone = setting('contact_phone'))

@@ -23,7 +23,7 @@
 
             <template x-if="$store.cart.summary && $store.cart.summary.items.length === 0">
                 <x-empty-state icon="bag" title="Votre panier est vide" text="Découvrez nos produits et laissez-vous tenter.">
-                    <a href="{{ route('catalog.index') }}" class="btn btn-primary">Découvrir le catalogue</a>
+                    <a wire:navigate href="{{ route('catalog.index') }}" class="btn btn-primary">Découvrir le catalogue</a>
                 </x-empty-state>
             </template>
 
@@ -59,8 +59,8 @@
                 <div class="flex justify-between text-zinc-500"><dt>Livraison</dt><dd>Calculée à l’étape suivante</dd></div>
             </dl>
             <div class="mt-4 grid gap-2">
-                <a href="{{ route('checkout.show') }}" class="btn btn-primary btn-lg w-full">Passer la commande <x-icon name="arrow-right" class="size-4" /></a>
-                <a href="{{ route('cart.index') }}" class="btn btn-ghost w-full">Voir le panier</a>
+                <a wire:navigate href="{{ route('checkout.show') }}" class="btn btn-primary btn-lg w-full">Passer la commande <x-icon name="arrow-right" class="size-4" /></a>
+                <a wire:navigate href="{{ route('cart.index') }}" class="btn btn-ghost w-full">Voir le panier</a>
             </div>
         </footer>
     </aside>

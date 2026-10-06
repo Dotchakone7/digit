@@ -22,7 +22,7 @@
 @push('head')
 <script type="application/ld+json">
 {!! json_encode(array_filter([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'Product',
     'name' => $product->name,
     'sku' => $product->sku,
@@ -104,7 +104,7 @@
             {{-- Purchase panel --}}
             <div class="lg:py-2">
                 @if ($product->category)
-                    <a href="{{ route('catalog.category', $product->category) }}" class="text-xs font-bold tracking-[0.16em] text-accent-700 uppercase hover:underline">{{ $product->category->name }}</a>
+                    <a wire:navigate href="{{ route('catalog.category', $product->category) }}" class="text-xs font-bold tracking-[0.16em] text-accent-700 uppercase hover:underline">{{ $product->category->name }}</a>
                 @endif
                 <h1 class="mt-2 text-3xl leading-tight font-extrabold sm:text-4xl">{{ $product->name }}</h1>
                 <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-zinc-500">

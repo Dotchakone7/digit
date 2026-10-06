@@ -12,16 +12,10 @@ use Illuminate\View\View;
 
 class ReviewController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
-        $status = $request->validate(['status' => ['nullable', Rule::enum(ReviewStatus::class)]])['status'] ?? ReviewStatus::Pending->value;
-
-        return view('admin.reviews.index', [
-            'reviews' => Review::query()->with(['product:id,name,slug', 'user:id,name,email'])
-                ->where('status', $status)->latest()->paginate(20)->withQueryString(),
-            'status' => ReviewStatus::from($status),
-            'counts' => Review::query()->selectRaw('status, COUNT(*) as total')->groupBy('status')->pluck('total', 'status'),
-        ]);
+        // Moderation queue rendered by App\Livewire\Admin\ReviewModeration.
+        return view('admin.reviews.index');
     }
 
     public function update(Request $request, Review $review): RedirectResponse

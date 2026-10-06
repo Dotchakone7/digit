@@ -23,7 +23,7 @@
             <p class="mt-6 text-sm text-zinc-500">Commande <span class="font-mono font-semibold text-brand-900">{{ $payment->order->number }}</span> · {{ money($payment->amount) }}</p>
             <div class="mt-8 flex flex-col gap-2 sm:flex-row sm:justify-center">
                 <a x-show="['failed','cancelled','expired'].includes(status)" href="{{ route('payments.show', $payment->order) }}" class="btn btn-primary">Réessayer le paiement</a>
-                <a href="{{ route('account.orders.show', $payment->order) }}" class="btn btn-secondary">Voir ma commande</a>
+                <a wire:navigate href="{{ route('account.orders.show', $payment->order) }}" class="btn btn-secondary">Voir ma commande</a>
             </div>
         </div>
     </div>

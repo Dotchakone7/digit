@@ -10,7 +10,7 @@
             <h2 class="font-sans text-base font-semibold">Donnez votre avis sur vos achats</h2>
             <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($toReview as $product)
-                    <a href="{{ route('products.show', $product) }}#avis" class="flex items-center gap-3 rounded-2xl p-3 ring-1 ring-zinc-200 transition hover:ring-brand-900">
+                    <a wire:navigate href="{{ route('products.show', $product) }}#avis" class="flex items-center gap-3 rounded-2xl p-3 ring-1 ring-zinc-200 transition hover:ring-brand-900">
                         <span class="size-12 shrink-0 overflow-hidden rounded-xl bg-sand"><x-product-image :src="$product->image_url" :alt="$product->name" /></span>
                         <span class="min-w-0 text-sm"><span class="line-clamp-1 font-medium text-brand-900">{{ $product->name }}</span><span class="text-xs font-semibold text-accent-700">Noter ce produit →</span></span>
                     </a>
@@ -23,7 +23,7 @@
         @forelse ($reviews as $review)
             <article class="card card-body">
                 <div class="flex flex-wrap items-start justify-between gap-3">
-                    <a href="{{ $review->product?->isPublished() ? route('products.show', $review->product) : '#' }}" class="flex items-center gap-3">
+                    <a wire:navigate href="{{ $review->product?->isPublished() ? route('products.show', $review->product) : '#' }}" class="flex items-center gap-3">
                         <span class="size-12 overflow-hidden rounded-xl bg-sand"><x-product-image :src="$review->product?->image_url" :alt="$review->product?->name" /></span>
                         <span><span class="block text-sm font-semibold text-brand-900">{{ $review->product?->name }}</span><x-rating :value="$review->rating" size="size-3.5" /></span>
                     </a>
