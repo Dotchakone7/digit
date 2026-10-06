@@ -11,6 +11,15 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - db: pgsql
+            port: 5432
+          - db: mariadb
+            port: 3306
+    name: tests (${{ matrix.db }})
     services:
       postgres:
         image: postgres:16
@@ -21,6 +30,16 @@ jobs:
         ports: ['5432:5432']
         options: >-
           --health-cmd "pg_isready -U digit" --health-interval 5s --health-timeout 5s --health-retries 10
+      mariadb:
+        image: mariadb:11
+        env:
+          MARIADB_USER: digit
+          MARIADB_PASSWORD: digit
+          MARIADB_DATABASE: digit_test
+          MARIADB_ROOT_PASSWORD: root
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd "healthcheck.sh --connect --innodb_initialized" --health-interval 5s --health-timeout 5s --health-retries 10
 
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +47,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: pdo_pgsql, gd, intl, mbstring
+          extensions: pdo_pgsql, pdo_mysql, gd, intl, mbstring
           coverage: none
 
       - uses: actions/setup-node@v4
@@ -52,11 +71,11 @@ jobs:
           cp .env.example .env
           php artisan key:generate
 
-      - name: Tests (PostgreSQL)
+      - name: Tests (${{ matrix.db }})
         env:
-          DB_CONNECTION: pgsql
+          DB_CONNECTION: ${{ matrix.db }}
           DB_HOST: 127.0.0.1
-          DB_PORT: 5432
+          DB_PORT: ${{ matrix.port }}
           DB_DATABASE: digit_test
           DB_USERNAME: digit
           DB_PASSWORD: digit

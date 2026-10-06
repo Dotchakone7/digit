@@ -78,37 +78,33 @@
 
             <section class="card overflow-hidden">
                 <h2 class="px-5 py-4 text-base font-semibold">Paiements</h2>
-                <div class="overflow-x-auto"><table class="table-admin">
-                    <thead><tr><th>Référence</th><th>Moyen</th><th>Détails</th><th>Statut</th><th class="text-right"><span class="sr-only">Actions</span></th></tr></thead>
-                    <tbody>
-                        @forelse ($order->payments as $payment)
-                            <tr>
-                                <td><span class="font-mono text-xs">{{ $payment->reference }}</span><span class="block text-xs text-zinc-500">{{ $payment->created_at->format('d/m/Y H:i') }}</span></td>
-                                <td>{{ $payment->gatewayLabel() }}</td>
-                                <td class="text-xs text-zinc-600">
-                                    @if ($payment->meta['operator'] ?? null)Opérateur : {{ ucfirst($payment->meta['operator']) }}<br>@endif
-                                    @if ($payment->meta['transaction_id'] ?? null)Transaction : <span class="font-mono">{{ $payment->meta['transaction_id'] }}</span><br>@endif
-                                    @if ($payment->meta['payer_phone'] ?? null)Payeur : {{ $payment->meta['payer_phone'] }}<br>@endif
+                <ul class="divide-y divide-zinc-100 border-t border-zinc-100">
+                    @forelse ($order->payments as $payment)
+                        <li class="flex flex-wrap items-start justify-between gap-3 px-5 py-4">
+                            <div class="min-w-0 text-sm">
+                                <p class="flex flex-wrap items-center gap-2 font-medium text-zinc-900">{{ $payment->gatewayLabel() }} <x-status-badge :status="$payment->status" /></p>
+                                <p class="mt-0.5 font-mono text-xs text-zinc-500">{{ $payment->reference }} · {{ $payment->created_at->format('d/m/Y H:i') }} · {{ money($payment->amount) }}</p>
+                                <p class="mt-1 text-xs text-zinc-600">
+                                    @if ($payment->meta['operator'] ?? null)Opérateur : {{ ucfirst($payment->meta['operator']) }} · @endif
+                                    @if ($payment->meta['transaction_id'] ?? null)Transaction : <span class="font-mono">{{ $payment->meta['transaction_id'] }}</span> · @endif
+                                    @if ($payment->meta['payer_phone'] ?? null)Payeur : {{ $payment->meta['payer_phone'] }} · @endif
                                     @if ($payment->paid_at)Payé le {{ $payment->paid_at->format('d/m/Y H:i') }}@endif
                                     @if ($payment->failure_reason)<span class="text-danger-700">{{ $payment->failure_reason }}</span>@endif
-                                </td>
-                                <td><x-status-badge :status="$payment->status" /></td>
-                                <td class="text-right">
-                                    @can('payments.manage')
-                                        @if ($payment->status->isOpen())
-                                            <div class="flex justify-end gap-1">
-                                                <form method="POST" action="{{ route('admin.payments.confirm', $payment) }}" data-confirm="Confirmez-vous avoir reçu {{ money($payment->amount) }} ({{ $payment->gatewayLabel() }}) ?" data-confirm-title="Confirmer la réception des fonds" data-confirm-label="Oui, fonds reçus" data-confirm-tone="neutral">@csrf<button class="btn btn-success btn-sm">Confirmer</button></form>
-                                                <form method="POST" action="{{ route('admin.payments.reject', $payment) }}" data-confirm="Le paiement sera marqué comme échoué. Le client pourra payer à nouveau." data-confirm-title="Rejeter le paiement ?" data-confirm-label="Rejeter">@csrf<button class="btn btn-danger-soft btn-sm">Rejeter</button></form>
-                                            </div>
-                                        @endif
-                                    @endcan
-                                </td>
-                            </tr>
-                        @empty
-                            <tr><td colspan="5" class="py-6 text-center text-zinc-500">Aucun paiement initié.</td></tr>
-                        @endforelse
-                    </tbody>
-                </table></div>
+                                </p>
+                            </div>
+                            @can('payments.manage')
+                                @if ($payment->status->isOpen())
+                                    <div class="flex shrink-0 gap-2">
+                                        <form method="POST" action="{{ route('admin.payments.confirm', $payment) }}" data-confirm="Confirmez-vous avoir reçu {{ money($payment->amount) }} ({{ $payment->gatewayLabel() }}) ?" data-confirm-title="Confirmer la réception des fonds" data-confirm-label="Oui, fonds reçus" data-confirm-tone="neutral">@csrf<button class="btn btn-success btn-sm">Confirmer</button></form>
+                                        <form method="POST" action="{{ route('admin.payments.reject', $payment) }}" data-confirm="Le paiement sera marqué comme échoué. Le client pourra payer à nouveau." data-confirm-title="Rejeter le paiement ?" data-confirm-label="Rejeter">@csrf<button class="btn btn-danger-soft btn-sm">Rejeter</button></form>
+                                    </div>
+                                @endif
+                            @endcan
+                        </li>
+                    @empty
+                        <li class="px-5 py-6 text-center text-sm text-zinc-500">Aucun paiement initié.</li>
+                    @endforelse
+                </ul>
             </section>
 
             @if ($order->notes)

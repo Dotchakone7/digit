@@ -14,6 +14,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\ConnectionEstablished;
+use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\Paginator;
@@ -43,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
         Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
         Paginator::defaultView('components.pagination');
 
+        $this->trustProxies();
         $this->registerSqliteFunctions();
         $this->registerAbilities();
         $this->localizeAuthMails();
@@ -57,6 +59,15 @@ class AppServiceProvider extends ServiceProvider
 
         foreach (array_keys(config('permissions.abilities')) as $ability) {
             Gate::define($ability, fn (User $user) => $user->is_active && in_array($ability, $user->abilities(), true));
+        }
+    }
+
+    private function trustProxies(): void
+    {
+        $proxies = trim((string) config('shop.trusted_proxies'));
+
+        if ($proxies !== '') {
+            TrustProxies::at($proxies === '*' ? '*' : array_map('trim', explode(',', $proxies)));
         }
     }
 

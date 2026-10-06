@@ -100,7 +100,7 @@ class CartTest extends TestCase
 
         $this->post(route('login'), ['email' => 'aya@example.com', 'password' => 'password']);
 
-        $this->assertSame(2, $user->cart->items()->sum('quantity'));
+        $this->assertSame(2, (int) $user->cart->items()->sum('quantity'));
         $this->assertSame(1, Cart::query()->count());
     }
 }

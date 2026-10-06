@@ -62,4 +62,11 @@ return [
     'notification_channels' => array_filter(explode(',', env('SHOP_NOTIFICATION_CHANNELS', 'mail,database'))),
 
     'admin_notification_email' => env('SHOP_ADMIN_NOTIFICATION_EMAIL'),
+
+    /*
+    | Reverse proxies / load balancers allowed to forward the client IP and
+    | HTTPS scheme: "*" (e.g. behind Cloudflare or a PaaS) or a comma-separated IP list.
+    | Read here (not in bootstrap/app.php) so it survives "php artisan optimize".
+    */
+    'trusted_proxies' => env('TRUSTED_PROXIES'),
 ];

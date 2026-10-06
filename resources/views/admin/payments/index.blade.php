@@ -21,19 +21,17 @@
     <div class="card overflow-hidden">
         <div class="overflow-x-auto">
             <table class="table-admin">
-                <thead><tr><th>Référence</th><th>Commande</th><th>Moyen</th><th>Transaction</th><th class="text-right">Montant</th><th>Statut</th><th class="text-right"><span class="sr-only">Actions</span></th></tr></thead>
+                <thead><tr><th>Commande</th><th>Moyen & transaction</th><th class="text-right">Montant</th><th>Statut</th><th class="text-right"><span class="sr-only">Actions</span></th></tr></thead>
                 <tbody>
                     @forelse ($payments as $payment)
                         <tr>
-                            <td><span class="font-mono text-xs">{{ $payment->reference }}</span><span class="block text-xs text-zinc-500">{{ $payment->created_at->format('d/m/Y H:i') }}</span></td>
-                            <td><a href="{{ route('admin.orders.show', $payment->order->number) }}" class="font-mono text-xs font-semibold text-brand-800 hover:underline">{{ $payment->order->number }}</a><span class="block text-xs text-zinc-500">{{ $payment->order->customer_name }}</span></td>
-                            <td>{{ $payment->gatewayLabel() }}</td>
-                            <td class="text-xs text-zinc-600">@if ($payment->meta['transaction_id'] ?? null){{ ucfirst($payment->meta['operator'] ?? '') }} · <span class="font-mono">{{ $payment->meta['transaction_id'] }}</span>@else — @endif</td>
+                            <td><a href="{{ route('admin.orders.show', $payment->order->number) }}" class="font-mono text-xs font-semibold text-brand-800 hover:underline">{{ $payment->order->number }}</a><span class="block text-xs text-zinc-500">{{ $payment->order->customer_name }}</span><span class="block font-mono text-[11px] text-zinc-500">{{ $payment->reference }} · {{ $payment->created_at->format('d/m/Y H:i') }}</span></td>
+                            <td>{{ $payment->gatewayLabel() }}@if ($payment->meta['transaction_id'] ?? null)<span class="block text-xs text-zinc-600">{{ ucfirst($payment->meta['operator'] ?? '') }} · <span class="font-mono">{{ $payment->meta['transaction_id'] }}</span></span>@endif</td>
                             <td class="text-right font-semibold tabular-nums">{{ money($payment->amount) }}</td>
                             <td><x-status-badge :status="$payment->status" /></td>
                             <td class="text-right">
                                 @if ($payment->status->isOpen())
-                                    <div class="flex justify-end gap-1">
+                                    <div class="flex flex-col items-end gap-1 xl:flex-row xl:justify-end">
                                         <form method="POST" action="{{ route('admin.payments.confirm', $payment) }}" data-confirm="Confirmez-vous avoir reçu {{ money($payment->amount) }} ?" data-confirm-title="Confirmer la réception des fonds" data-confirm-label="Fonds reçus" data-confirm-tone="neutral">@csrf<button class="btn btn-success btn-sm">Confirmer</button></form>
                                         <form method="POST" action="{{ route('admin.payments.reject', $payment) }}" data-confirm="Le paiement sera marqué comme échoué." data-confirm-title="Rejeter le paiement ?" data-confirm-label="Rejeter">@csrf<button class="btn btn-danger-soft btn-sm">Rejeter</button></form>
                                     </div>
@@ -41,7 +39,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="7"><x-empty-state icon="card" title="Aucun paiement" /></td></tr>
+                        <tr><td colspan="5"><x-empty-state icon="card" title="Aucun paiement" /></td></tr>
                     @endforelse
                 </tbody>
             </table>

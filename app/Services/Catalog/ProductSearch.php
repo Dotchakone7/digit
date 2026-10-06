@@ -133,13 +133,14 @@ class ProductSearch
         $grammar = $query->getQuery()->getGrammar();
         $wrapped = $grammar->wrap($query->getModel()->qualifyColumn($column));
 
-        if ($query->getConnection()->getDriverName() === 'pgsql') {
-            $from = 'àâäáãåçéèêëíìîïñóòôöõúùûüýÿœæ';
-            $to = 'aaaaaaceeeeiiiinooooouuuuyyoa';
-            $query->whereRaw("translate(lower({$wrapped}), '{$from}', '{$to}') like ?", [$needle], $boolean);
-        } else {
-            $query->whereRaw("shop_normalize({$wrapped}) like ? escape '\\'", [$needle], $boolean);
-        }
+        match ($query->getConnection()->getDriverName()) {
+            'pgsql' => $query->whereRaw(
+                "translate(lower({$wrapped}), 'àâäáãåçéèêëíìîïñóòôöõúùûüýÿœæ', 'aaaaaaceeeeiiiinooooouuuuyyoa') like ?", [$needle], $boolean
+            ),
+            // utf8mb4_unicode_ci collation is already case- and accent-insensitive.
+            'mysql', 'mariadb' => $query->whereRaw("{$wrapped} like ?", [$needle], $boolean),
+            default => $query->whereRaw("shop_normalize({$wrapped}) like ? escape '\\'", [$needle], $boolean),
+        };
     }
 
     private function applySort(Builder $query, string $sort): Builder
